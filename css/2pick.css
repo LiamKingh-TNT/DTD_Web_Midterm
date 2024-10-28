@@ -1,17 +1,53 @@
+@keyframes sel_1_pop_up {
+    0% { top: 30em; right: 50%;}
+    40% {top: 12em; right: 50%;}
+    100% {top:10em; right: 60%; transform: rotate(-10deg); width: 25em; height: 25em;}
+}
+@keyframes sel_2_pop_up {
+    0% { top: 30em; right: 50%;}
+    40% {top: 12em; right: 50%;}
+    100% {top:10em; right: 40%; transform: rotate(15deg); width: 30em; height: 30em;}
+}
+@keyframes sel_1_pop_up_v2 {
+    0% { top: 30em; right: 50%; z-index: 2;}
+    40% {top: 12em; right: 50%; z-index: 2;}
+    100% {top:8em; right: 60%; z-index: 2; transform: rotate(-12deg); width: 30em; height: 30em; }
+}
+@keyframes sel_2_pop_up_v2 {
+    0% { top: 30em; right: 50%; z-index: 1;}
+    40% {top: 12em; right: 50%; z-index: 1;}
+    100% {top:10em; right: 40%; z-index: 1; transform: rotate(10deg); width: 25em; height: 25em; }
+}
+.sel_1_pop_up_play{
+    animation: sel_1_pop_up 0.7s ease-in-out forwards;
+}
+.sel_2_pop_up_play{
+    animation: sel_2_pop_up 0.7s ease-in-out forwards;
+}
+.sel_1_pop_up_play_v2{
+    animation: sel_1_pop_up_v2 0.7s ease-in-out forwards;
+}
+.sel_2_pop_up_play_v2{
+    animation: sel_2_pop_up_v2 0.7s ease-in-out forwards;
+}
 .pick_selection{
     position: absolute;
     width: 20em;
     height: 20em;
     padding: 10px;
-    top: 10em;
 }
 #sel_1{
     right: 80%;
     margin-right: -10em;
+    top: 10em;
+    background-color:rgb(88, 177, 255);
 }
+
 #sel_2{
     right: 30%;
     margin-right: -10em;
+    top: 10em;
+    background-color:rgb(255, 88, 88);
 }
 .pick_selection_button{
     position: relative;
@@ -55,10 +91,18 @@
 }
 .seletion_box_foot_text{
     position: relative;
-    top:15%;
     text-align:center;
     vertical-align:text-bottom;
     text-decoration: none;
     line-height: 0em;
+    color:  white;
+}
+.seletion_box_foot_text_2{
+    position: relative;
+    text-align:center;
+    vertical-align:text-bottom;
+    text-decoration: none;
+    line-height: 0em;
+    top: 10%;
     color:  white;
 }
