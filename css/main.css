@@ -1,0 +1,24 @@
+body{
+    margin: 0;
+}
+
+.main-content{
+    display: flex;
+    position: relative;
+}
+
+.main-content-left{
+    width: 50%;
+    height: 100%;
+}
+
+.main-content-right{
+    width: 50%;
+    height: 100%;
+}
+
+.main-content img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
