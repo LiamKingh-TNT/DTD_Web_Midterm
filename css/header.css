@@ -5,7 +5,7 @@ header{
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    z-index: 50;
+    z-index: 51;
     position: absolute;
 }
 
@@ -23,4 +23,5 @@ header a img{
 
 .login{
     color:white;
+    text-decoration: none; /* 去掉下劃線 */
 }
