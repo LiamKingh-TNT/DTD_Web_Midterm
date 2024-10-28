@@ -4,7 +4,13 @@
     height: 20em;
     padding: 10px;
     top: 10em;
-    right: 50%;
+}
+#sel_1{
+    right: 80%;
+    margin-right: -10em;
+}
+#sel_2{
+    right: 30%;
     margin-right: -10em;
 }
 .pick_selection_button{
