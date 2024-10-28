@@ -3,7 +3,7 @@
     30% { top: -10em; width: 23em; transform: translate(55%);}
     50% { top: 2em;  width: 38em; height: 38em; transform: translate(55%);}
     80% { top: 2em;  width: 30em; height: 30em; transform: translate(55%);}
-    100% { top: 0em;  width: 30em; transform: rotate(-10deg); width: 30em; height: 30em; }
+    100% { top: 0em;  width: 30em; height: 30em; transform: rotate(-10deg); width: 30em; height: 30em; }
 }
 
 @keyframes sel_2_pop_up {
@@ -11,14 +11,14 @@
     30% { top: -10em; width: 23em; transform: translate(-55%);}
     50% { top: 2em;  width: 38em; height: 38em; transform: translate(-55%);}
     80% { top: 2em;  width: 30em; height: 30em; transform: translate(-55%);}
-    100% { top: 0em;  width: 30em; transform: rotate(10deg); width: 30em; height: 30em; }
+    100% { top: 0em;  width: 30em; height: 30em; transform: rotate(10deg); width: 30em; height: 30em; }
 }
 @keyframes sel_1_pop_up_v2 {
     0% { top: 60em; width: 23em; transform: translate(55%);}
     30% { top: -10em; width: 23em; transform: translate(55%);}
     50% { top: 2em;  width: 38em; height: 38em; transform: translate(55%);}
     80% { top: 2em;  width: 30em; height: 30em; transform: translate(55%);}
-    100% { top: 0em;  width: 30em; z-index: 2; transform: rotate(-10deg); width: 30em; height: 30em; }
+    100% { top: 0em;  width: 30em; height: 30em; z-index: 2; transform: rotate(-10deg); width: 30em; height: 30em; }
 }
 
 @keyframes sel_2_pop_up_v2 {
@@ -26,7 +26,7 @@
     30% { top: -10em; width: 26em; transform: translate(-55%);}
     50% { top: 2em;  width: 38em; height: 38em; transform: translate(-55%);}
     80% { top: 2em;  width: 30em; height: 30em; transform: translate(-55%);}
-    100% { top: 0em;  width: 30em; z-index: 1; transform: rotate(10deg); width: 30em; height: 30em; }
+    100% { top: 0em;  width: 30em; height: 30em; z-index: 1; transform: rotate(10deg); width: 30em; height: 30em; }
 }
 
 
@@ -94,7 +94,7 @@ html, body {
     border-radius: 2em;
     box-shadow: 0.5em 0.5em 0.8em rgba(62, 64, 65, 0.267);
     position: relative;
-    margin: 0 1em; /* 添加 margin 使選擇框之間有距離 */
+    margin: 0 1.5em;  /* 添加 margin 使選擇框之間有距離 */
 }
 
 .selections_box {
