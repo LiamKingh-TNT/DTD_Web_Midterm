@@ -1,0 +1,19 @@
+.pick_selection_1{
+    position: fixed;
+    width: 2em;
+    height: 2em;
+    padding: 10px;
+    background-color: aqua;
+    top: 10em;
+    right: 10em;
+}
+
+.pick_selection_2{
+    position: fixed;
+    width: 2em;
+    height: 2em;
+    padding: 10px;
+    background-color: rgb(0, 0, 0);
+    top: 10em;
+    right: 10em;
+}
