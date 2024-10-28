@@ -1,12 +1,12 @@
 @keyframes sel_1_pop_up {
     0% { top: 30em; right: 50%;}
     40% {top: 12em; right: 50%;}
-    100% {top:10em; right: 60%; transform: rotate(-10deg); width: 25em; height: 25em;}
+    100% {top:10em; right: 60%; transform: rotate(-10deg); width: 28em; height: 28em;}
 }
 @keyframes sel_2_pop_up {
     0% { top: 30em; right: 50%;}
     40% {top: 12em; right: 50%;}
-    100% {top:10em; right: 40%; transform: rotate(15deg); width: 30em; height: 30em;}
+    100% {top:10em; right: 35%; transform: rotate(12deg); width: 30em; height: 30em;}
 }
 @keyframes sel_1_pop_up_v2 {
     0% { top: 30em; right: 50%; z-index: 2;}
@@ -16,7 +16,7 @@
 @keyframes sel_2_pop_up_v2 {
     0% { top: 30em; right: 50%; z-index: 1;}
     40% {top: 12em; right: 50%; z-index: 1;}
-    100% {top:10em; right: 40%; z-index: 1; transform: rotate(10deg); width: 25em; height: 25em; }
+    100% {top:10em; right: 35%; z-index: 1; transform: rotate(10deg); width: 28em; height: 28em; }
 }
 .sel_1_pop_up_play{
     animation: sel_1_pop_up 0.7s ease-in-out forwards;
@@ -35,6 +35,8 @@
     width: 20em;
     height: 20em;
     padding: 10px;
+    border: 0px;
+    border-radius: 2em;
 }
 #sel_1{
     right: 80%;
@@ -49,6 +51,7 @@
     top: 10em;
     background-color:rgb(255, 88, 88);
 }
+
 .pick_selection_button{
     position: relative;
     width: 5em;
@@ -77,6 +80,7 @@
     background-repeat: no-repeat;
     background-attachment:local;
     background-size:contain;
+    border-radius: 1.5em;
 }
 .seletion_box_foot{
     width: 100%;
@@ -88,6 +92,7 @@
     display: table;
     box-sizing: border-box;
     background-color: rgba(85, 85, 85, 0.653);
+    border-radius: 0em 0em 1.5em 1.5em;
 }
 .seletion_box_foot_text{
     position: relative;
