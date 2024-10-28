@@ -25,7 +25,16 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-
+header {
+    position: fixed; /* 固定在頁面頂部 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 寬度設為 100% */
+    background-color: beige; /* 背景色與頁面相同 */
+    z-index: 10; /* 確保在最上層 */
+    text-align: center; /* 標題置中 */
+    padding: 1em; /* 標題的內邊距 */
+}
 html, body {
     margin: 0;
     padding: 0;
