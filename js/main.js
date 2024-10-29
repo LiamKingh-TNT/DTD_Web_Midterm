@@ -1,6 +1,5 @@
 // main.js
 $(document).ready(function() {
-    // 初始化 Firebase
     
     
   

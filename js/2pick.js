@@ -1,10 +1,16 @@
-var moving;
+var moving = 0;
 
 $(document).ready(function() {
     // 初始化動畫
+    gsap.to('.pick_selection', { pointerEvents: 'none', duration: 0 });
     playSelectionAnimation('#sel_1', 55, -10, 5);
     playSelectionAnimation('#sel_2', -55, 10, 0);
     mouseHoverEffects();
+    
+    setTimeout(() => {
+        gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
+        moving = 1;
+    }, 850);
 });
 
 function playSelectionAnimation(selector, translateX, rotation, zl) {

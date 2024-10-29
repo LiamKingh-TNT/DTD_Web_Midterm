@@ -12,10 +12,30 @@ $(document).ready(function() {
         measurementId: "G-MM8Q54K3QZ"
     };
     firebase.initializeApp(firebaseConfig);
-  
     const data_base = firebase.firestore();
     const classRef = data_base.collection("classroom");
-    
+
+    loading = 1;
+    gsap.fromTo('.loading_roll', 
+        { rotate: 0 }, // 開始狀態
+        { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
+    ); 
+    const dots = document.querySelectorAll('.loading_dot');
+    dots.forEach((dot, index) => {
+        gsap.fromTo(dot,
+            {y: '1em'},
+        {
+            opacity: 1, // 使點顯示
+            y: '2.5em', // 向上浮動 10 像素
+            duration: 0.7, // 動畫持續 0.5 秒
+            repeat: -1, // 無限重複
+            yoyo: true, // 折返動畫
+            delay: index * 0.2, // 設置延遲，讓每個點依次出現
+            ease: "power1.inOut"
+        });
+    });
+
+
     classRef.get().then((querySnapshot) => {
         const docs = [];
         querySnapshot.forEach((doc) => {  // 修正這裡
@@ -61,6 +81,10 @@ $(document).ready(function() {
                 console.error("class_menbers 不存在");
             }
         }
+        console.log('load down');
+
+        gsap.to('.loading_obj',{opacity:0,y:'-100em',ease:'power.out',delay:2});
+        
     }).catch((error) => {
         console.error("獲取文檔時發生錯誤:", error);
     });
