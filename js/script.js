@@ -102,6 +102,7 @@ $(document).ready(function() {
             left: 0,
             top: 0, 
             transform: 'scale(1)',
+            'border-radius': '1em'
         });
 
         button.append(ripple);

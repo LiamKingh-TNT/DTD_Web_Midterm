@@ -15,6 +15,7 @@
 .room-button{
     box-sizing: border-box;
     display: flex;
+    border-radius: 1em;
 }
 
 button{
@@ -41,4 +42,10 @@ button{
     width: 5rem;
     height: 5rem;
     object-fit: cover;
+}
+.left_pic{
+    border-radius: 1em 0 0 1em;
+}
+.right_pic{
+    border-radius: 0 1em 1em 0;
 }
