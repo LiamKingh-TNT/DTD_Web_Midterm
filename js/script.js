@@ -50,13 +50,13 @@ $(document).ready(function() {
                 console.log(selectedDoc[i-1].id);
                 $('.button_' + i).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
                 $('.button_' + i).find('img:last').attr('src', img2Src);   // 使用 '.' 前綴選擇器
-                if(i == 2)
+                /*if(i == 2)
                 {
                     const class_name = data.class_name;
                     $('.name h1').text(class_name);
                     $('.left-image img').attr('src', img1Src);
                     $('.right-image img').attr('src', img2Src);
-                }
+                }*/
             } else {
                 console.error("class_menbers 不存在");
             }
