@@ -46,8 +46,17 @@ $(document).ready(function() {
                 const img2Src = class_menbers[menberKeys[randomIndexes[1]]][2]; // 圖片路徑
                 
                 // 設置圖片源
-                $('#class_' + i).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
-                $('#class_' + i).find('img:last').attr('src', img2Src);   // 使用 '.' 前綴選擇器
+                $('.button_' + i).attr('id', '#' + selectedDoc[i - 1].id);
+                console.log(selectedDoc[i-1].id);
+                $('.button_' + i).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
+                $('.button_' + i).find('img:last').attr('src', img2Src);   // 使用 '.' 前綴選擇器
+                if(i == 2)
+                {
+                    const class_name = data.class_name;
+                    $('.name h1').text(class_name);
+                    $('.left-image img').attr('src', img1Src);
+                    $('.right-image img').attr('src', img2Src);
+                }
             } else {
                 console.error("class_menbers 不存在");
             }
@@ -57,37 +66,21 @@ $(document).ready(function() {
     });
 
     $('button').click(function() {
-        class_id = $(this).attr('id'); // 使用 attr 獲取 ID
+        var tempID = $(this).attr('id');
+        class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
+        //console.log(tempID.substr(1,tempID.length));
         class_infos = classRef.doc(class_id); // 獲取對應的文檔
         class_infos.get().then((doc) => {
             if (doc.exists) {
                 const data = doc.data();
-                const class_menbers = data.class_menbers; // 獲取 class_members
                 const class_name = data.class_name;
                 $('.name h1').text(class_name);
 
-                if (class_menbers) {
-                    const menberKeys = Object.keys(class_menbers);
-                    
-                    // 隨機選擇兩個成員的索引
-                    const randomIndexes = [];
-                    while (randomIndexes.length < 2) {
-                        const rand = Math.floor(Math.random() * menberKeys.length);
-                        if (!randomIndexes.includes(rand)) {
-                            randomIndexes.push(rand);
-                        }
-                    }
+                var img1Src = $(this).find('img:first').attr('src');
+                var img2Src = $(this).find('img:last').attr('src');
 
-                    // 獲取兩個隨機成員的資料
-                    const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
-                    const img2Src = class_menbers[menberKeys[randomIndexes[1]]][2]; // 圖片路徑
-                    
-                    // 設置圖片源
-                    $('.left-image img').attr('src', img1Src);
-                    $('.right-image img').attr('src', img2Src);
-                } else {
-                    console.error("class_menbers 不存在");
-                }
+                $('.left-image img').attr('src', img1Src);
+                $('.right-image img').attr('src', img2Src);
             } else {
                 console.error("文檔不存在");
             }
