@@ -23,13 +23,22 @@ button{
     background-color: transparent;
 }
 
+.room-button {
+    position: relative;
+    border: 2px solid transparent;
+    background: transparent;
+    cursor: pointer;
+}
+
+.ripple {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    z-index: 1;
+}
+
 .menu img{
     width: 5rem;
     height: 5rem;
     object-fit: cover;
-}
-
-.selected{
-    display: block;
-    box-shadow: inset 0 0 5em 1em rgb(0, 0, 0);
 }

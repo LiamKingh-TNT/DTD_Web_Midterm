@@ -1,20 +1,12 @@
 $(document).ready(function() {
-    $('button').mouseenter(function(){
-        $(this).stop(true, true).animate({'width': '+=25px'}, 300, 'linear');
-    });
-    $('button').mouseleave(function(){
-        $(this).stop(true, true).animate({'width': '-=25px'}, 300, 'linear');
-    });
-    $('button').click(function() {
-        // 獲取當前按鈕中第一個和第二個 img 元素的 src
+    
+   $('button').click(function() {
         var img1Src = $(this).find('img:first').attr('src');
         var img2Src = $(this).find('img:last').attr('src');
 
-        // 使用 img1Src 和 img2Src 來更新指定的圖片
-        $('.left-image img').attr('src', img1Src); // 更新左側圖片
-        $('.right-image img').attr('src', img2Src); // 更新右側圖片
+        $('.left-image img').attr('src', img1Src);
+        $('.right-image img').attr('src', img2Src);
 
-        // 更新 h1 的內容
         if ($(this).attr('id') === 'left') {
             $('.name h1').text('日本動畫二選一');
         } else if ($(this).attr('id') === 'mid') {
@@ -22,5 +14,44 @@ $(document).ready(function() {
         } else if ($(this).attr('id') === 'right') {
             $('.name h1').text('動漫主角二選一');
         }
+    });
+
+    const createRipple = (button) => {
+        const ripple = $('<span class="ripple"></span>');
+        
+        const rect = button[0].getBoundingClientRect();
+        const rippleWidth = rect.width;
+        const rippleheight = rect.height;
+
+        ripple.css({
+            width: rippleWidth,
+            height: rippleheight,
+            left: 0,
+            top: 0, 
+            transform: 'scale(1)',
+        });
+
+        button.append(ripple);
+
+        gsap.to(ripple, {
+            scale: 1.5, 
+            opacity: 0,
+            duration: 2,
+            ease: "power1.out",
+            onComplete: () => ripple.remove(), 
+        });
+    };
+
+    $('.room-button').on('mouseenter', function() {
+        const button = $(this);
+
+        createRipple(button);
+        
+        const interval = setInterval(() => createRipple(button), 750);
+
+        button.on('mouseleave', function() {
+            clearInterval(interval);
+            button.off('mouseleave');
+        });
     });
 });
