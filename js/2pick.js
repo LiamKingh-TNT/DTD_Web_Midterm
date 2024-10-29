@@ -1,84 +1,81 @@
-var moving = 1;
+var moving;
 
 $(document).ready(function() {
-    // 頁面加載後自動播放動畫
-    $('#sel_1').addClass('sel_1_pop_up_play');
-    $('#sel_2').addClass('sel_2_pop_up_play');
-    play_sel_anim();
-    mouse_hover();
+    // 初始化動畫
+    playSelectionAnimation('#sel_1', 55, -10, 5);
+    playSelectionAnimation('#sel_2', -55, 10, 0);
+    mouseHoverEffects();
 });
-function mouse_hover()
-{
-    $('.pick_selection').mouseenter(function() {
-        $(this).stop(true, false);
-        $(this).addClass('selected');
-        $(this).first().css({'width': '30em', 'height': '30em'}).animate({'width': '35em', 'height': '35em'}, 300, 'linear', function() {
-        
-        if (moving == 0) {
-            return; // 當 moving 為 0 時，不進行任何操作
+
+function playSelectionAnimation(selector, translateX, rotation, zl) {
+    var PSA_TL = gsap.timeline();
+    PSA_TL.fromTo(selector, 
+        { top: '60em', width: '23em', transform: `translate(${translateX}%)` },
+        { 
+            top: '-5em', 
+            width: '23em', 
+            height: '30em', 
+            transform: `rotate(0deg)`, 
+            transform: `translate(${translateX}%)`,
+            duration: 0.3, 
+            ease: "power1.in",
+            'z-index': zl
         }
-        $('.pick_selection').css('pointer-events', 'none');
-        $('#sel_1').removeClass('sel_1_pop_up_play sel_1_pop_up_play_v2 selected');
-        $('#sel_2').removeClass('sel_2_pop_up_play sel_2_pop_up_play_v2 selected');
-    
-            $('.pick_selection').css('pointer-events', 'auto');
-            $(this).addClass('selected');
-        });
+    );
+    PSA_TL.to(selector,
+        { 
+            top: '0em', 
+            width: '38em', 
+            height: '30em', 
+            transform: `rotate(0deg)`, 
+            transform: `translate(${translateX}%)`,
+            duration: 0.2, 
+            ease: "power2.out" ,
+            'z-index': zl
+        }
+    );
+    PSA_TL.to(selector,
+        { 
+            top: '-5em', 
+            width: '30em', 
+            height: '30em', 
+            transform: `rotate(${rotation}deg)`, 
+            duration: 0.5, 
+            ease: "power4.out" ,
+            'z-index': zl
+        }
+    );
+}
+
+function mouseHoverEffects() {
+    $('.pick_selection').on('mouseenter', function() {
+        gsap.to(this, { width: '35em', height: '35em', duration: 0.3, ease: "linear" , 'z-index': 10});
         $(this).find('.selected_beam').removeClass('hide').addClass('visible');
     });
 
-    $('.pick_selection').mouseleave(function() {
-        
-        $(this).stop(true, false);
-        $(this).first().css({'width': '35em', 'height': '35em'}).animate({'width': '30em', 'height': '30em'}, 300, 'linear', function() {
-        if (moving == 0) {
-            return; // 當 moving 為 0 時，不進行任何操作
-        }
-        $('.pick_selection').css('pointer-events', 'none');
-        $('#sel_1').removeClass('sel_1_pop_up_play sel_1_pop_up_play_v2 selected');
-        $('#sel_2').removeClass('sel_2_pop_up_play sel_2_pop_up_play_v2 selected');
-
-            $('.pick_selection').css('pointer-events', 'auto');
-            $(this).addClass('selected');
-        });
+    $('.pick_selection').on('mouseleave', function() {
+        gsap.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "linear", 'z-index': 0});
         $(this).find('.selected_beam').removeClass('visible').addClass('hide');
     });
-}
 
-function play_sel_anim() {
-    $('.pick_selection').off('click').click(function() {
-        if (moving == 0) {
-            return; // 若 moving 為 0，則不執行任何操作
-        }
+    $('.pick_selection').on('click', function() {
+        if (moving === 0) return;
+        moving = 0;
 
-        $('.selected_beam').removeClass('visible').addClass('hide');
-        $(this).animate({'width': '30em', 'height': '30em'}, 10, 'linear', function() {});
+        gsap.to('.pick_selection', { pointerEvents: 'none', duration: 0 });
 
         var random = Math.random();
-        $('.pick_selection').addClass('disable-hover'); // 禁用 hover
-        moving = 0; // 禁用再次點擊
-
-        // 移除並重播動畫
-        $('#sel_1').removeClass('sel_1_pop_up_play sel_1_pop_up_play_v2');
-        $('#sel_2').removeClass('sel_2_pop_up_play sel_2_pop_up_play_v2');
-
-        // 強制重繪以使動畫生效
-        void $('#sel_1')[0].offsetWidth;
-        void $('#sel_2')[0].offsetWidth;
-
-        // 重新添加動畫
         if (random < 0.5) {
-            $('#sel_1').addClass('sel_1_pop_up_play');
-            $('#sel_2').addClass('sel_2_pop_up_play');
+            playSelectionAnimation('#sel_1', 55, -10, 5);
+            playSelectionAnimation('#sel_2', -55, 10, 0);
         } else {
-            $('#sel_1').addClass('sel_1_pop_up_play_v2');
-            $('#sel_2').addClass('sel_2_pop_up_play_v2');
+            playSelectionAnimation('#sel_1', 55, -10, 0);
+            playSelectionAnimation('#sel_2', -55, 10, 5);
         }
 
-        // 設定定時器在動畫結束後重新啟用按鈕
         setTimeout(() => {
-            $('.pick_selection').stop(true,false).removeClass('disable-hover'); // 移除 disable-hover class
-            moving = 1; // 重新啟用再次點擊
-        }, 1100); // 1100毫秒對應於動畫的時長
+            gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
+            moving = 1;
+        }, 1100);
     });
 }
