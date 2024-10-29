@@ -49,12 +49,16 @@ function playSelectionAnimation(selector, translateX, rotation, zl) {
 
 function mouseHoverEffects() {
     $('.pick_selection').on('mouseenter', function() {
-        gsap.to(this, { width: '35em', height: '35em', duration: 0.3, ease: "linear" , 'z-index': 10});
+        var temp_tl = gsap.timeline();
+        temp_tl.to(this, {duration: 0, 'z-index': 10});
+        temp_tl.to(this, { width: '35em', height: '35em', duration: 0.3, ease: "power4.inOut", 'z-index': 10});
         $(this).find('.selected_beam').removeClass('hide').addClass('visible');
     });
 
     $('.pick_selection').on('mouseleave', function() {
-        gsap.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "linear", 'z-index': 0});
+        var temp_tl = gsap.timeline();
+        temp_tl.to(this, {duration: 0, 'z-index': 0});
+        temp_tl.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "power4.inOut", 'z-index': 0});
         $(this).find('.selected_beam').removeClass('visible').addClass('hide');
     });
 
@@ -76,6 +80,6 @@ function mouseHoverEffects() {
         setTimeout(() => {
             gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
             moving = 1;
-        }, 1100);
+        }, 850);
     });
 }
