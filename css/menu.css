@@ -8,26 +8,26 @@
     z-index: 50;
     position:fixed;
     bottom: 0px;
+    gap: 1em;
+    padding: 1em;
 }
 
-.left{
+.room-button{
     box-sizing: border-box;
     display: flex;
-    padding: 1rem;
 }
 
-.mid{
-    box-sizing: border-box;
-    display: flex;
-    padding: 1rem;
-}
-
-.right{
-    box-sizing: border-box;
-    display: flex;
-    padding: 1rem;
+button{
+    border: none;
+    padding: 0;
+    background-color: transparent;
 }
 
 .menu img{
     width: 5rem;
+}
+
+.selected{
+    display: block;
+    box-shadow: inset 0 0 5em 1em rgb(0, 0, 0);
 }

@@ -7,11 +7,23 @@ header{
     width: 100%;
     z-index: 51;
     position: absolute;
+    padding: 0 3rem;
+}
+
+.brand-title{
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
 }
 
 header a img{
     width: 4rem;
     padding: 0 0.5rem;
+}
+
+.name h1{
+
+    color: white;
 }
 
 .header-right{
