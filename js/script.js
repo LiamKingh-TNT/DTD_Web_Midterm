@@ -1,9 +1,9 @@
 $(document).ready(function() {
     $('button').mouseenter(function(){
-        $(this).stop(true, true).animate({'height': '+=25px'}, 300, 'linear');
+        $(this).stop(true, true).animate({'width': '+=25px'}, 300, 'linear');
     });
     $('button').mouseleave(function(){
-        $(this).stop(true, true).animate({'height': '-=25px'}, 300, 'linear');
+        $(this).stop(true, true).animate({'width': '-=25px'}, 300, 'linear');
     });
     $('button').click(function() {
         // 獲取當前按鈕中第一個和第二個 img 元素的 src
