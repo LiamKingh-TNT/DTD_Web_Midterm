@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="UTF-8">
     <title>殘酷二選一</title>
-    <link  href="./css/header.css" rel="stylesheet">
-    <link  href="./css/main.css" rel="stylesheet">
-    <link  href="./css/menu.css" rel="stylesheet">
+    <link href="./css/header.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+    <link href="./css/menu.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- 使用非模組版本的 Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
     <script src="./js/script.js"></script>
+    <script src="./js/main.js"></script>
 </head>
 
 <body>
@@ -22,27 +29,26 @@
             <a class="login" href="#">登入/註冊</a>
         </div>
     </header>
-        <div class="menu">
-            <button class="room-button" id="left">
-                <span class="ripple"></span>
-                <img src="images/anime_left.jpg" alt="left-left">
-                <img src="images/anime_right.jpg" alt="left-right">
-            </button>
-            <button class="room-button" id="mid">
-                <img src="images/game_left.jpg" alt="mid-left">
-                <img src="images/game_right.jpg" alt="mid-right">
-            </button>
-            <button class="room-button" id="right">
-                <img src="images/character_left.jpg" alt="right-left">
-                <img src="images/character_right.jpg" alt="right-right">
-            </button>
-        </div>
+    <div class="menu">
+        <button class="room-button" id="class_1">
+            <img src="images/anime_left.jpg" alt="left-left">
+            <img src="images/anime_right.jpg" alt="left-right">
+        </button>
+        <button class="room-button" id="class_2">
+            <img src="images/game_left.jpg" alt="mid-left">
+            <img src="images/game_right.jpg" alt="mid-right">
+        </button>
+        <button class="room-button" id="class_3">
+            <img src="images/character_left.jpg" alt="right-left">
+            <img src="images/character_right.jpg" alt="right-right">
+        </button>
+    </div>
     <div class="main-content">
         <div class="left-image">
             <img src="images/test_img_1.jpg" alt="left-img" class="main-img">
         </div>
         <div class="button-container">
-            <a href="./2pick.html" class="start-button">開始選擇</a>
+            <button class="start-button" id="start-button">開始選擇</button>
         </div>
         <div class="right-image">
             <img src="images/test_img_2.jpg" alt="right-img" class="main-img">

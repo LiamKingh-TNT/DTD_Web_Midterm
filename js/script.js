@@ -1,19 +1,99 @@
+var chosen_class;
+var class_id;
+var class_infos;
 $(document).ready(function() {
+    const firebaseConfig = {
+        apiKey: "AIzaSyDRpvapxNXt_gWmlXVoA_M6ZoayyvXLpRY",
+        authDomain: "dtd-website-2pick.firebaseapp.com",
+        projectId: "dtd-website-2pick",
+        storageBucket: "dtd-website-2pick.appspot.com",
+        messagingSenderId: "770441251767",
+        appId: "1:770441251767:web:3371261e3cef53a7ba7632",
+        measurementId: "G-MM8Q54K3QZ"
+    };
+    firebase.initializeApp(firebaseConfig);
+  
+    const data_base = firebase.firestore();
+    const classRef = data_base.collection("classroom");
     
-   $('button').click(function() {
-        var img1Src = $(this).find('img:first').attr('src');
-        var img2Src = $(this).find('img:last').attr('src');
+    classRef.get().then((querySnapshot) => {
+        const docs = [];
+        querySnapshot.forEach((doc) => {  // 修正這裡
+            docs.push({ id: doc.id, data: doc.data() });
+        });
 
-        $('.left-image img').attr('src', img1Src);
-        $('.right-image img').attr('src', img2Src);
+        const selectedDoc = getRandomDoc(docs, 3);  // 修正這裡
+        console.log("隨機選擇的文檔:", selectedDoc);
 
-        if ($(this).attr('id') === 'left') {
-            $('.name h1').text('日本動畫二選一');
-        } else if ($(this).attr('id') === 'mid') {
-            $('.name h1').text('遊戲二選一');
-        } else if ($(this).attr('id') === 'right') {
-            $('.name h1').text('動漫主角二選一');
+        for(var i = 1; i <= 3; i++) {
+            const data = selectedDoc[i - 1].data;  // 使用 data 屬性
+            const class_menbers = data.class_menbers;
+
+            if (class_menbers) {
+                const menberKeys = Object.keys(class_menbers);
+                
+                // 隨機選擇兩個成員的索引
+                const randomIndexes = [];
+                while (randomIndexes.length < 2) {
+                    const rand = Math.floor(Math.random() * menberKeys.length);
+                    if (!randomIndexes.includes(rand)) {
+                        randomIndexes.push(rand);
+                    }
+                }
+
+                // 獲取兩個隨機成員的資料
+                const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
+                const img2Src = class_menbers[menberKeys[randomIndexes[1]]][2]; // 圖片路徑
+                
+                // 設置圖片源
+                $('#class_' + i).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
+                $('#class_' + i).find('img:last').attr('src', img2Src);   // 使用 '.' 前綴選擇器
+            } else {
+                console.error("class_menbers 不存在");
+            }
         }
+    }).catch((error) => {
+        console.error("獲取文檔時發生錯誤:", error);
+    });
+
+    $('button').click(function() {
+        class_id = $(this).attr('id'); // 使用 attr 獲取 ID
+        class_infos = classRef.doc(class_id); // 獲取對應的文檔
+        class_infos.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                const class_menbers = data.class_menbers; // 獲取 class_members
+                const class_name = data.class_name;
+                $('.name h1').text(class_name);
+
+                if (class_menbers) {
+                    const menberKeys = Object.keys(class_menbers);
+                    
+                    // 隨機選擇兩個成員的索引
+                    const randomIndexes = [];
+                    while (randomIndexes.length < 2) {
+                        const rand = Math.floor(Math.random() * menberKeys.length);
+                        if (!randomIndexes.includes(rand)) {
+                            randomIndexes.push(rand);
+                        }
+                    }
+
+                    // 獲取兩個隨機成員的資料
+                    const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
+                    const img2Src = class_menbers[menberKeys[randomIndexes[1]]][2]; // 圖片路徑
+                    
+                    // 設置圖片源
+                    $('.left-image img').attr('src', img1Src);
+                    $('.right-image img').attr('src', img2Src);
+                } else {
+                    console.error("class_menbers 不存在");
+                }
+            } else {
+                console.error("文檔不存在");
+            }
+        }).catch((error) => {
+            console.error("獲取文檔時發生錯誤:", error);
+        });
     });
 
     const createRipple = (button) => {
@@ -44,14 +124,17 @@ $(document).ready(function() {
 
     $('.room-button').on('mouseenter', function() {
         const button = $(this);
-
         createRipple(button);
         
         const interval = setInterval(() => createRipple(button), 750);
-
         button.on('mouseleave', function() {
             clearInterval(interval);
             button.off('mouseleave');
         });
     });
 });
+
+function getRandomDoc(docs, count) {
+    const shuffled = docs.sort(() => 0.5 - Math.random()); // 隨機打亂數組
+    return shuffled.slice(0, count); // 取前 count 個文檔
+}
