@@ -6,14 +6,13 @@ $(document).ready(function() {
     $('#sel_2').addClass('sel_2_pop_up_play');
     play_sel_anim();
     mouse_hover();
-    
 });
 function mouse_hover()
 {
     $('.pick_selection').mouseenter(function() {
         $(this).stop(true, false);
         $(this).addClass('selected');
-        $(this).css({'width': '30em', 'height': '30em'}).animate({'width': '35em', 'height': '35em'}, 300, 'linear', function() {
+        $(this).first().css({'width': '30em', 'height': '30em'}).animate({'width': '35em', 'height': '35em'}, 300, 'linear', function() {
         
         if (moving == 0) {
             return; // 當 moving 為 0 時，不進行任何操作
@@ -31,7 +30,7 @@ function mouse_hover()
     $('.pick_selection').mouseleave(function() {
         
         $(this).stop(true, false);
-        $(this).css({'width': '35em', 'height': '35em'}).animate({'width': '30em', 'height': '30em'}, 300, 'linear', function() {
+        $(this).first().css({'width': '35em', 'height': '35em'}).animate({'width': '30em', 'height': '30em'}, 300, 'linear', function() {
         if (moving == 0) {
             return; // 當 moving 為 0 時，不進行任何操作
         }
