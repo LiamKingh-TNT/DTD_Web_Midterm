@@ -59,6 +59,10 @@ function play_sel_anim() {
         $('.pick_selection').addClass('disable-hover'); // 禁用 hover
         moving = 0; // 禁用再次點擊
 
+        $('this').animate({
+            
+        })
+        /*
         // 移除並重播動畫
         $('#sel_1').removeClass('sel_1_pop_up_play sel_1_pop_up_play_v2');
         $('#sel_2').removeClass('sel_2_pop_up_play sel_2_pop_up_play_v2');
@@ -75,7 +79,7 @@ function play_sel_anim() {
             $('#sel_1').addClass('sel_1_pop_up_play_v2');
             $('#sel_2').addClass('sel_2_pop_up_play_v2');
         }
-
+        */
         // 設定定時器在動畫結束後重新啟用按鈕
         setTimeout(() => {
             $('.pick_selection').stop(true,false).removeClass('disable-hover'); // 移除 disable-hover class

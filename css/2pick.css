@@ -31,11 +31,11 @@
 
 
 @keyframes beamRotate {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(90deg); }
-    50% { transform: rotate(180deg); }
-    75% { transform: rotate(270deg); }
-    100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); opacity: 0.25;}
+    25% { transform: rotate(90deg); opacity: 0.65;}
+    50% { transform: rotate(180deg); opacity: 0.25;}
+    75% { transform: rotate(270deg); opacity: 0.65;}
+    100% { transform: rotate(360deg);opacity: 0.25;}
 }
 
 
@@ -66,10 +66,12 @@ header {
     top: 0;
     left: 0;
     width: 100%; /* 寬度設為 100% */
-    background-color: beige; /* 背景色與頁面相同 */
+    background-color: rgba(82, 82, 82, 0.361); /* 背景色與頁面相同 */
     z-index: 10; /* 確保在最上層 */
     text-align: center; /* 標題置中 */
     padding: 1em; /* 標題的內邊距 */
+    height: 3em;
+    margin-top: -2em;
 }
 html, body {
     margin: 0;
@@ -95,6 +97,7 @@ html, body {
     box-shadow: 0.5em 0.5em 0.8em rgba(62, 64, 65, 0.267);
     position: relative;
     margin: 0 1.5em;  /* 添加 margin 使選擇框之間有距離 */
+    -webkit-user-drag: none;
 }
 
 .selections_box {
@@ -103,6 +106,7 @@ html, body {
     align-items: center;
     width: 100vw;
     height: 100vh;
+    -webkit-user-drag: none;
 }
 
 .selected_beam {
@@ -135,6 +139,11 @@ html, body {
     border-radius: 1.5em;
     box-shadow: inset 0em 0em 5em 1em rgba(62, 64, 65, 0.799);
     background-color: gray;
+    user-select:none; /* standard syntax */
+    -webkit-user-select:none; /* for Chrome、Safari */
+    -moz-user-select:none;  /* for Mozilla、Firefox */
+    -webkit-user-drag: none;
+    -moz-user-select: none;
 }
 
 .hide {
@@ -167,6 +176,9 @@ html, body {
     line-height: 0em;
     margin-top: 1em;
     color: white;
+    user-select:none; /* standard syntax */
+    -webkit-user-select:none; /* for Chrome、Safari */
+    -moz-user-select:none;  /* for Mozilla、Firefox */
 }
 
 .disable-hover {
