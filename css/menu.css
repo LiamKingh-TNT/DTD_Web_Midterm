@@ -25,6 +25,8 @@ button{
 
 .menu img{
     width: 5rem;
+    height: 5rem;
+    object-fit: cover;
 }
 
 .selected{

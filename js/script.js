@@ -13,5 +13,14 @@ $(document).ready(function() {
         // 使用 img1Src 和 img2Src 來更新指定的圖片
         $('.left-image img').attr('src', img1Src); // 更新左側圖片
         $('.right-image img').attr('src', img2Src); // 更新右側圖片
+
+        // 更新 h1 的內容
+        if ($(this).attr('id') === 'left') {
+            $('.name h1').text('日本動畫二選一');
+        } else if ($(this).attr('id') === 'mid') {
+            $('.name h1').text('遊戲二選一');
+        } else if ($(this).attr('id') === 'right') {
+            $('.name h1').text('動漫主角二選一');
+        }
     });
 });
