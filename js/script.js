@@ -20,6 +20,14 @@ $(document).ready(function() {
         { rotate: 0 }, // 開始狀態
         { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
     ); 
+    
+    const main_imgs = document.querySelectorAll('.main-img');
+    main_imgs.forEach((img, index) => {
+        gsap.fromTo(img, 
+            { scale: 1 }, // 開始狀態
+            { scale: 1.05, x: (Math.random() - 0.5) + 'em', y: (Math.random() * 2 - 1) + 'em', duration: 1.5, yoyo: true, ease: 'power1.inOut', repeat: -1, delay: index * Math.random() * 0.5,} // 結束狀態
+        ); 
+    });
     const dots = document.querySelectorAll('.loading_dot');
     dots.forEach((dot, index) => {
         gsap.fromTo(dot,
@@ -35,7 +43,7 @@ $(document).ready(function() {
         });
     });
 
-
+    
     classRef.get().then((querySnapshot) => {
         const docs = [];
         querySnapshot.forEach((doc) => {  // 修正這裡
@@ -83,34 +91,57 @@ $(document).ready(function() {
         }
         console.log('load down');
 
-        gsap.to('.loading_obj',{opacity:0,y:'-100em',ease:'power.out',delay:2});
-        
+        gsap.to('.loading_obj', {
+            opacity: 0,
+            y: '-100em',
+            ease: 'power.out',
+            delay: 2,
+            onComplete: function() {
+                $('.loading_obj').css('display', 'none'); // 在動畫結束後隱藏 loading_obj
+            }
+        });
+
     }).catch((error) => {
         console.error("獲取文檔時發生錯誤:", error);
     });
 
     $('button').click(function() {
-        var tempID = $(this).attr('id');
-        class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
-        //console.log(tempID.substr(1,tempID.length));
-        class_infos = classRef.doc(class_id); // 獲取對應的文檔
-        class_infos.get().then((doc) => {
-            if (doc.exists) {
-                const data = doc.data();
-                const class_name = data.class_name;
-                $('.name h1').text(class_name);
+        var swtl = gsap.timeline();
+        swtl.to('.switch_cover',{
+            gap:0,
+            ease:'power.in',
+            duration:0.3
+        })
+        swtl.to('.switch_cover',{
+            gap:'100em',
+            ease:'power.out',
+            duration:0.3,
+            delay:0.5
+        })
+        setTimeout(() => {
+            var tempID = $(this).attr('id');
+            class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
+            //console.log(tempID.substr(1,tempID.length));
+            class_infos = classRef.doc(class_id); // 獲取對應的文檔
+            class_infos.get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const class_name = data.class_name;
+                    $('.name h1').text(class_name);
 
-                var img1Src = $(this).find('img:first').attr('src');
-                var img2Src = $(this).find('img:last').attr('src');
+                    var img1Src = $(this).find('img:first').attr('src');
+                    var img2Src = $(this).find('img:last').attr('src');
 
-                $('.left-image img').attr('src', img1Src);
-                $('.right-image img').attr('src', img2Src);
-            } else {
-                console.error("文檔不存在");
-            }
-        }).catch((error) => {
-            console.error("獲取文檔時發生錯誤:", error);
-        });
+                    $('.left-image img').attr('src', img1Src);
+                    $('.right-image img').attr('src', img2Src);
+                } else {
+                    console.error("文檔不存在");
+                }
+            }).catch((error) => {
+                console.error("獲取文檔時發生錯誤:", error);
+            });
+        
+        }, 300);
     });
 
     const createRipple = (button) => {

@@ -47,3 +47,45 @@
     border-radius: 100%;
     margin-left: 3em;
 }
+
+.switch_cover {
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    justify-content: center;
+    z-index: 20; /* 設置更高的 z-index，確保在 .cover 上方 */
+    gap: 100em;
+}
+.door {
+    display: flex;
+    visibility: visible;
+    align-self: center;
+    width: 50%; /* 每扇門占一半寬度 */
+    height: 80%;
+    color: black;
+    font-size: 2em;
+    background-color: rgb(25, 54, 91); /* 確保顯示顏色 */
+}
+
+.door_right{
+    padding: 0;
+    border-bottom: 2em;
+    border-top: 2em;
+    border-left: 2em;
+    border-right: 0em;
+    border-style: solid;
+    border-color: rgb(6, 31, 69);
+}
+.door_left{
+    padding: 0;
+    border-bottom: 2em;
+    border-top: 2em;
+    border-left: 0em;
+    border-right: 2em;
+    border-style: solid;
+    border-color: rgb(6, 31, 69);
+}
