@@ -20,10 +20,7 @@ $(document).ready(function() {
     const classRef = data_base.collection("classroom");
 
     loading = 1;
-    gsap.fromTo('.loading_roll', 
-        { rotate: 0 }, // 開始狀態
-        { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
-    ); 
+    
     
     const main_imgs = document.querySelectorAll('.main-img');
     main_imgs.forEach((img, index) => {
@@ -32,6 +29,10 @@ $(document).ready(function() {
             { scale: 1.05, x: (Math.random() - 0.5) + 'em', y: (Math.random() * 2 - 1) + 'em', duration: 1.5, yoyo: true, ease: 'power1.inOut', repeat: -1, delay: index * Math.random() * 0.5,} // 結束狀態
         ); 
     });
+    gsap.fromTo('.loading_roll', 
+        { rotate: 0 }, // 開始狀態
+        { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
+    ); 
     const dots = document.querySelectorAll('.loading_dot');
     dots.forEach((dot, index) => {
         gsap.fromTo(dot,
@@ -99,6 +100,7 @@ $(document).ready(function() {
             opacity: 0,
             y: '-100em',
             ease: 'power.out',
+            duration:2.5,
             delay: 2,
             onComplete: function() {
                 $('.loading_obj').css('display', 'none'); // 在動畫結束後隱藏 loading_obj

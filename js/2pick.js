@@ -8,8 +8,31 @@ var vs_order = [];
 var game_proccess = 0;
 var game_rounds = 0;
 var now_rounds;
+var loading = true;
+
 
 $(document).ready(function() {
+    gsap.to('#sel_1', { top: '60em', width: '23em', transform: `translate(55%)` });
+    gsap.to('#sel_2', { top: '60em', width: '23em', transform: `translate(-55%)` });
+    gsap.fromTo('.loading_roll', 
+        { rotate: 0 }, // 開始狀態
+        { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
+    ); 
+    const dots = document.querySelectorAll('.loading_dot');
+    dots.forEach((dot, index) => {
+        gsap.fromTo(dot,
+            {y: '1em'},
+        {
+            opacity: 1, // 使點顯示
+            y: '2.5em', // 向上浮動 10 像素
+            duration: 0.7, // 動畫持續 0.5 秒
+            repeat: -1, // 無限重複
+            yoyo: true, // 折返動畫
+            delay: index * 0.2, // 設置延遲，讓每個點依次出現
+            ease: "power1.inOut"
+        });
+    });
+
     var class_menbers;
     const firebaseConfig = {
         apiKey: "AIzaSyDRpvapxNXt_gWmlXVoA_M6ZoayyvXLpRY",
@@ -51,6 +74,19 @@ $(document).ready(function() {
                 [vs_order[i], vs_order[j]] = [vs_order[j], vs_order[i]];
             }
             console.log(vs_order);
+            gsap.to('.loading_obj', {
+                opacity: 0,
+                y: '-100em',
+                ease: 'power.out',
+                duration:2,
+                delay: 2,
+                onComplete: function() {
+                    $('.loading_obj').css('display', 'none'); // 在動畫結束後隱藏 loading_obj
+                    loading = false;
+                    playSelectionAnimation('#sel_1', 55, -10, 5);
+                    playSelectionAnimation('#sel_2', -55, 10, 0);
+                }
+            });
         } else {
             console.error("文檔不存在");
         }   
@@ -60,8 +96,7 @@ $(document).ready(function() {
 
     // 初始化動畫
     setPicture(game_proccess);
-    playSelectionAnimation('#sel_1', 55, -10, 5);
-    playSelectionAnimation('#sel_2', -55, 10, 0);
+    
     mouseHoverEffects();
     
     setTimeout(() => {
@@ -78,6 +113,10 @@ function setPicture(game_proccess) {
             // 修正选择器并替换图片
             $('#pick_selection_1 img').attr('src', class_menbers['c' + vs_order[game_proccess]][2]);
             $('#pick_selection_2 img').attr('src', class_menbers['c' + vs_order[game_proccess + 1]][2]);
+            $('#sel_1 .seletion_box_foot h1').text(class_menbers['c' + vs_order[game_proccess]][0]);
+            $('#sel_2 .seletion_box_foot h1').text(class_menbers['c' + vs_order[game_proccess + 1]][0]);
+            $('#sel_1 .seletion_box_foot h2').text(class_menbers['c' + vs_order[game_proccess]][1]);
+            $('#sel_2 .seletion_box_foot h2').text(class_menbers['c' + vs_order[game_proccess + 1]][1]);
             console.log(class_menbers['c' + vs_order[game_proccess]][2]);
         }
     }).catch((error) => {
@@ -124,27 +163,16 @@ function playSelectionAnimation(selector, translateX, rotation, zl) {
     );
 }
 
-$(document).ready(function() {
-    // 初始化动画
-    setPicture(game_proccess);
-    playSelectionAnimation('#sel_1', 55, -10, 5);
-    playSelectionAnimation('#sel_2', -55, 10, 0);
-    mouseHoverEffects();
-
-    setTimeout(() => {
-        gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
-        moving = 1;
-    }, 850);
-});
 
 function mouseHoverEffects() {
+    console.log(loading);
     $('.pick_selection').each(function() {
         let isHovered = false;
         let isClicked = false;
         
         var temp_tl = gsap.timeline();
         $(this).on('mouseenter', function() {
-            if (!isHovered && !isClicked) {
+            if (!isHovered && !isClicked && !loading) {
                 isHovered = true;
                 temp_tl.killTweensOf(this);
                 temp_tl.to('.pick_selection', { duration: 0, 'z-index': 0 });
@@ -157,7 +185,7 @@ function mouseHoverEffects() {
 
         
         $(this).on('mouseleave', function() {
-            if (isHovered && !isClicked) {
+            if (isHovered && !isClicked&& !loading) {
                 isHovered = false;
                 temp_tl.killTweensOf(this);
                 temp_tl.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "power4.inOut" });
