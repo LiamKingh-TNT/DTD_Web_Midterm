@@ -1,10 +1,11 @@
-var chosen_class;
+
 var class_id;
 var class_infos;
-localStorage.setItem("class_in", "JohnDoe");
-localStorage.setItem("age", "25");
+var can_start;
 
 $(document).ready(function() {
+    class_id = null;
+    can_start = false;
     const firebaseConfig = {
         apiKey: "AIzaSyDRpvapxNXt_gWmlXVoA_M6ZoayyvXLpRY",
         authDomain: "dtd-website-2pick.firebaseapp.com",
@@ -49,15 +50,15 @@ $(document).ready(function() {
     
     classRef.get().then((querySnapshot) => {
         const docs = [];
-        querySnapshot.forEach((doc) => {  // 修正這裡
+        querySnapshot.forEach((doc) => {  
             docs.push({ id: doc.id, data: doc.data() });
         });
 
-        const selectedDoc = getRandomDoc(docs, 3);  // 修正這裡
+        const selectedDoc = getRandomDoc(docs, 3);  
         console.log("隨機選擇的文檔:", selectedDoc);
 
         for(var i = 1; i <= 3; i++) {
-            const data = selectedDoc[i - 1].data;  // 使用 data 屬性
+            const data = selectedDoc[i - 1].data;  
             const class_menbers = data.class_menbers;
 
             if (class_menbers) {
@@ -108,7 +109,20 @@ $(document).ready(function() {
         console.error("獲取文檔時發生錯誤:", error);
     });
 
-    $('button').click(function() {
+    $("#start-button").click(function(){
+        // 儲存數據到 sessionStorage
+        sessionStorage.setItem("class_infos", class_infos);
+        sessionStorage.setItem("class_id", class_id);
+        // 跳轉到 2pick 頁面
+        if(class_id != null){
+            console.log(class_infos);
+            console.log(class_id);
+            window.location.href = "2pick.html";
+        }
+    });
+
+    $('.room-button').click(function() {
+        
         var swtl = gsap.timeline();
         swtl.to('.switch_cover',{
             gap:0,
@@ -130,6 +144,7 @@ $(document).ready(function() {
         setTimeout(() => {
             var tempID = $(this).attr('id');
             class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
+            console.log(class_id);
             //console.log(tempID.substr(1,tempID.length));
             class_infos = classRef.doc(class_id); // 獲取對應的文檔
             class_infos.get().then((doc) => {
@@ -149,7 +164,38 @@ $(document).ready(function() {
             }).catch((error) => {
                 console.error("獲取文檔時發生錯誤:", error);
             });
-        
+            
+            var stbttl = gsap.timeline();
+            console.log(can_start);
+            stbttl.to('#start-button',{
+                delay:0.05
+            });
+            if(!can_start)
+            {
+                stbttl.fromTo('#start-button',{
+                    y:'8em',
+                    scale:0.8
+                },{
+                    y:'2em',
+                    scale:1.5,
+                    duration:0.6,
+                    ease:'power4.in',
+                    onStart:function(){
+                        $('#start-button').css('visibility','visible');
+                        $('#start-button').css('pointer-events','all');
+                    }
+                });
+            }
+            stbttl.fromTo('#start-button',{
+                scale:1.5
+            },{
+                y:'0em',
+                scale:1,
+                duration:0.5,
+                ease:'power2.out'
+            });
+
+            can_start = true;
         }, 300);
     });
 
