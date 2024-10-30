@@ -1,6 +1,9 @@
 var chosen_class;
 var class_id;
 var class_infos;
+localStorage.setItem("class_in", "JohnDoe");
+localStorage.setItem("age", "25");
+
 $(document).ready(function() {
     const firebaseConfig = {
         apiKey: "AIzaSyDRpvapxNXt_gWmlXVoA_M6ZoayyvXLpRY",
