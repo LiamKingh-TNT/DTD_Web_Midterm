@@ -50,6 +50,7 @@
 
 .switch_cover {
     position: fixed;
+    pointer-events: none;
     top: 0;
     display: flex;
     justify-content: center;

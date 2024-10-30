@@ -110,13 +110,19 @@ $(document).ready(function() {
         swtl.to('.switch_cover',{
             gap:0,
             ease:'power.in',
-            duration:0.3
+            duration:0.3,
+            onStart:function(){
+                $('.switch_cover').css('pointer-events','all');
+            }
         })
         swtl.to('.switch_cover',{
             gap:'100em',
             ease:'power.out',
             duration:0.3,
-            delay:0.5
+            delay:0.5,
+            onComplete:function(){
+                $('.switch_cover').css('pointer-events','none');
+            }
         })
         setTimeout(() => {
             var tempID = $(this).attr('id');
