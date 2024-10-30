@@ -12,8 +12,8 @@ var loading = true;
 
 
 $(document).ready(function() {
-    gsap.to('#sel_1', { top: '60em', width: '23em', transform: `translate(55%)` });
-    gsap.to('#sel_2', { top: '60em', width: '23em', transform: `translate(-55%)` });
+    gsap.to('#sel_1', { top: '60em', scaleX: 0.6, scaleY: 1.2, transform: `translate(55%)` });
+    gsap.to('#sel_2', { top: '60em', scaleX: 0.6, scaleY: 1.2, transform: `translate(-55%)` });
     gsap.fromTo('.loading_roll', 
         { rotate: 0 }, // 開始狀態
         { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
@@ -78,9 +78,9 @@ $(document).ready(function() {
                 opacity: 0,
                 y: '-100em',
                 ease: 'power.out',
-                duration:2,
-                delay: 2,
-                onComplete: function() {
+                duration:1,
+                delay: 1,
+                onStart: function() {
                     $('.loading_obj').css('display', 'none'); // 在動畫結束後隱藏 loading_obj
                     loading = false;
                     playSelectionAnimation('#sel_1', 55, -10, 5);
@@ -128,12 +128,13 @@ function setPicture(game_proccess) {
 function playSelectionAnimation(selector, translateX, rotation, zl) {
     var PSA_TL = gsap.timeline();
     PSA_TL.fromTo(selector, 
-        { top: '60em', width: '23em', transform: `translate(${translateX}%)` },
+        { top: '60em',  scaleX: 0.6, transform: `translate(${translateX}%)`,opacity:1 },
         { 
             top: '-5em', 
-            width: '23em', 
-            height: '30em', 
+            scaleX: 0.6, 
+            scaleY: 1, 
             transform: `rotate(0deg)`, 
+            transform: `translate(${translateX}%)`,
             duration: 0.3, 
             ease: "power1.in",
             'z-index': zl
@@ -142,9 +143,10 @@ function playSelectionAnimation(selector, translateX, rotation, zl) {
     .to(selector,
         { 
             top: '0em', 
-            width: '38em', 
-            height: '30em', 
+            scaleX: 1.6, 
+            scaleY: 1, 
             transform: `rotate(0deg)`,
+            transform: `translate(${translateX}%)`,
             duration: 0.2, 
             ease: "power2.out",
             'z-index': zl
@@ -153,8 +155,8 @@ function playSelectionAnimation(selector, translateX, rotation, zl) {
     .to(selector,
         { 
             top: '-5em', 
-            width: '30em', 
-            height: '30em', 
+            scaleX: 1, 
+            scaleY: 1, 
             transform: `rotate(${rotation}deg)`, 
             duration: 0.5, 
             ease: "power4.out",
@@ -177,18 +179,18 @@ function mouseHoverEffects() {
                 temp_tl.killTweensOf(this);
                 temp_tl.to('.pick_selection', { duration: 0, 'z-index': 0 });
                 temp_tl.to(this, { duration: 0, 'z-index': 10 });
-                temp_tl.to(this, { width: '38em', height: '38em', duration: 0.3, ease: "power4.in", 'z-index': 10 });
-                temp_tl.to(this, { width: '35em', height: '35em', duration: 0.2, ease: "power4.out", 'z-index': 10 });
+                temp_tl.to(this, { scaleX: 1.2, scaleY: 1.2, duration: 0.3, ease: "power4.in", 'z-index': 10 });
+                temp_tl.to(this, { scaleX: 1.1, scaleY: 1.1, duration: 0.2, ease: "power4.out", 'z-index': 10 });
                 $(this).find('.selected_beam').removeClass('hide').addClass('visible');
             }
         });
 
         
         $(this).on('mouseleave', function() {
-            if (isHovered && !isClicked&& !loading) {
+            if (isHovered && !isClicked && !loading) {
                 isHovered = false;
                 temp_tl.killTweensOf(this);
-                temp_tl.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "power4.inOut" });
+                temp_tl.to(this, { scaleX: 1, scaleY: 1, duration: 0.3, ease: "power4.inOut" });
                 $(this).find('.selected_beam').removeClass('visible').addClass('hide');
             }
         });
@@ -198,9 +200,17 @@ function mouseHoverEffects() {
             moving = 0;
             isClicked = true; // 标记为已点击
             game_proccess += 2;
+
             gsap.to('.pick_selection', { pointerEvents: 'none', duration: 0 });
+            $('.pick_selection').addClass('lose');
+            $(this).removeClass('lose');
+            gsap.to('.pick_selection',{transform: `rotate(0deg)`, });
+            battleAnimation(this, ".lose"); // sel_1為贏家，sel_2為輸家
+
+
 
             // 确保点击时的动画不会冲突
+            /*
             var random = Math.random();
             if (random < 0.5) {
                 playSelectionAnimation('#sel_1', 55, -10, 5);
@@ -209,15 +219,116 @@ function mouseHoverEffects() {
                 playSelectionAnimation('#sel_1', 55, -10, 0);
                 playSelectionAnimation('#sel_2', -55, 10, 5);
             }
-
+            */
             setTimeout(() => {
                 gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
                 moving = 1;
                 isClicked = false; // 重置点击状态
-            }, 850);
+            }, 2050);
         });
     });
 }
+
+function battleAnimation(winnerSelector, loserSelector) {
+    var winnerDirection = $(winnerSelector).attr('id') === 'sel_1' ? 1 : -1;
+    var loserDirection = -winnerDirection; // 输家方向相反
+    $('.pick_selection').find('.selected_beam').removeClass('visible').addClass('hide');
+
+    // 创建动画时间轴
+    var timeline = gsap.timeline();
+
+    // 确保两个元素在初始时重叠
+    gsap.to(winnerSelector, { x: winnerDirection * 30, duration: 0.5 }); // 两者紧贴
+    gsap.to(loserSelector, { x: loserDirection * 30, duration: 0.5}); // 两者紧贴
+
+
+    // 最终结果
+    timeline.to(winnerSelector, {
+            scaleX: 0.8, // 赢家被挤压
+            duration: 0.2, // 縮短持續時間
+            ease: "power1.inOut"
+        })
+        .to(winnerSelector, {
+            // 反弹回原本大小
+            scaleX: 1,
+            scaleX: 1.5,
+            duration: 0.2, // 縮短持續時間
+            ease: "back.out(1.7)"
+        })
+        .to(winnerSelector, {
+            // 最后移动到屏幕中心并放大
+            transform: `translate(${winnerDirection * 55}%)`, // 移动到中心
+            scaleX: 1.5,
+            scaleY: 1.5,
+            duration: 0.5, // 最终放大的持续时间
+            ease: "back.out(1.7)",
+            onStart:function(){
+                gsap.to(loserSelector, {
+                    // 将输家弹飞，计算弹飞方向以超出边缘
+                    x: (i, target) => {
+                        var rect = target.getBoundingClientRect(); // 获取元素的位置
+                        var screenWidth = window.innerWidth;
+        
+                        // 如果赢家在左边，输家弹飞到屏幕右边；否则，弹飞到左边
+                        return (winnerDirection === 1) ? (screenWidth + rect.width) : -(screenWidth + rect.width);
+                    },
+                    y: (i, target) => {
+                        var rect = target.getBoundingClientRect(); // 获取元素的位置
+                        var screenHeight = window.innerHeight;
+        
+                        // 随机选择是向上还是向下弹飞
+                        return gsap.utils.random(-screenHeight - rect.height, screenHeight + rect.height);
+                    },
+                    rotation: gsap.utils.random(180, 720), // 随机旋转角度
+                    scale: 0.5, // 远离时缩小
+                    opacity: 0, // 弹飞时消失
+                    duration: 1.2, // 持续时间
+                    ease: "power4.out"
+                });
+                setTimeout(() => {
+                    timeline.to(winnerSelector, {
+                        // 反弹回原本大小
+                        scaleX: 1.5,
+                        scaleY: 1.5,
+                        duration: 0.2, // 縮短持續時間
+                        ease: "back.out(1.7)"
+                    })
+                    .to(winnerSelector, {
+                        // 反弹回原本大小
+                        scaleX: 1.8,
+                        scaleY: 1.8,
+                        delay:0.5,
+                        y: -200,
+                        duration: 0.3, // 縮短持續時間
+                        ease: "power3.in"
+                    })
+                    .to(winnerSelector, {
+                        // 反弹回原本大小
+                        scaleX: 2.3,
+                        scaleY: 2.3,
+                        y: 1500,
+                        duration: 0.8, // 縮短持續時間
+                        ease: "power3.out",
+                        onComplete:function(){
+                            var random = Math.random();
+                            if (random < 0.5) {
+                                playSelectionAnimation('#sel_1', 55, -10, 5);
+                                playSelectionAnimation('#sel_2', -55, 10, 0);
+                            } else {
+                                playSelectionAnimation('#sel_1', 55, -10, 0);
+                                playSelectionAnimation('#sel_2', -55, 10, 5);
+                            }
+                        }
+                    })
+                        
+                }, 300);
+            }
+        });
+        
+}
+
+
+
 
 
 function countCKeys(obj) {
