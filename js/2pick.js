@@ -2,8 +2,7 @@ var moving = 0;
 var class_infos;
 var class_id;
 var class_data;
-var class_name;
-var class_menbers; // 修正拼写
+var class_name; // 修正拼写
 var characters_amount;
 var vs_order = [];
 var game_proccess = 0;
@@ -11,6 +10,7 @@ var game_rounds = 0;
 var now_rounds;
 
 $(document).ready(function() {
+    var class_menbers;
     const firebaseConfig = {
         apiKey: "AIzaSyDRpvapxNXt_gWmlXVoA_M6ZoayyvXLpRY",
         authDomain: "dtd-website-2pick.firebaseapp.com",
@@ -37,7 +37,7 @@ $(document).ready(function() {
             $('#title').text(class_name);
             console.log(class_name);
             console.log(class_data); // 输出 class_data
-            console.log(class_menbers);
+            console.log('a + ' + class_data.class_menbers);
 
             characters_amount = countCKeys(class_data);
             // 初始化 vs_order
@@ -59,7 +59,7 @@ $(document).ready(function() {
     });
 
     // 初始化動畫
-    console.log(class_menbers);
+    setPicture(game_proccess);
     playSelectionAnimation('#sel_1', 55, -10, 5);
     playSelectionAnimation('#sel_2', -55, 10, 0);
     mouseHoverEffects();
@@ -69,6 +69,22 @@ $(document).ready(function() {
         moving = 1;
     }, 850);
 });
+
+function setPicture(game_proccess) {
+    class_infos.get().then((doc) => {
+        if (doc.exists) {
+            class_data = doc.data();
+            class_menbers = class_data.class_menbers; // 修正拼写
+            // 修正选择器并替换图片
+            $('#pick_selection_1 img').attr('src', class_menbers['c' + vs_order[game_proccess]][2]);
+            $('#pick_selection_2 img').attr('src', class_menbers['c' + vs_order[game_proccess + 1]][2]);
+            console.log(class_menbers['c' + vs_order[game_proccess]][2]);
+        }
+    }).catch((error) => {
+        console.error("獲取文檔時發生錯誤:", error);
+    });
+}
+
 
 function playSelectionAnimation(selector, translateX, rotation, zl) {
     var PSA_TL = gsap.timeline();
@@ -108,44 +124,73 @@ function playSelectionAnimation(selector, translateX, rotation, zl) {
     );
 }
 
+$(document).ready(function() {
+    // 初始化动画
+    setPicture(game_proccess);
+    playSelectionAnimation('#sel_1', 55, -10, 5);
+    playSelectionAnimation('#sel_2', -55, 10, 0);
+    mouseHoverEffects();
+
+    setTimeout(() => {
+        gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
+        moving = 1;
+    }, 850);
+});
+
 function mouseHoverEffects() {
-    $('.pick_selection').on('mouseenter', function() {
+    $('.pick_selection').each(function() {
+        let isHovered = false;
+        let isClicked = false;
+        
         var temp_tl = gsap.timeline();
-        temp_tl.to('.pick_selection', { duration: 0, 'z-index': 0 });
-        temp_tl.to(this, { duration: 0, 'z-index': 10 });
-        temp_tl.to(this, { width: '38em', height: '38em', duration: 0.3, ease: "power4.in", 'z-index': 10 });
-        temp_tl.to(this, { width: '35em', height: '35em', duration: 0.2, ease: "power4.out", 'z-index': 10 });
-        $(this).find('.selected_beam').removeClass('hide').addClass('visible');
-    });
+        $(this).on('mouseenter', function() {
+            if (!isHovered && !isClicked) {
+                isHovered = true;
+                temp_tl.killTweensOf(this);
+                temp_tl.to('.pick_selection', { duration: 0, 'z-index': 0 });
+                temp_tl.to(this, { duration: 0, 'z-index': 10 });
+                temp_tl.to(this, { width: '38em', height: '38em', duration: 0.3, ease: "power4.in", 'z-index': 10 });
+                temp_tl.to(this, { width: '35em', height: '35em', duration: 0.2, ease: "power4.out", 'z-index': 10 });
+                $(this).find('.selected_beam').removeClass('hide').addClass('visible');
+            }
+        });
 
-    $('.pick_selection').on('mouseleave', function() {
-        var temp_tl = gsap.timeline();
-        temp_tl.to(this, { duration: 0 });
-        temp_tl.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "power4.inOut" });
-        $(this).find('.selected_beam').removeClass('visible').addClass('hide');
-    });
+        
+        $(this).on('mouseleave', function() {
+            if (isHovered && !isClicked) {
+                isHovered = false;
+                temp_tl.killTweensOf(this);
+                temp_tl.to(this, { width: '30em', height: '30em', duration: 0.3, ease: "power4.inOut" });
+                $(this).find('.selected_beam').removeClass('visible').addClass('hide');
+            }
+        });
 
-    $('.pick_selection').on('click', function() {
-        if (moving === 0) return;
-        moving = 0;
-        game_proccess+=2;
-        gsap.to('.pick_selection', { pointerEvents: 'none', duration: 0 });
+        $(this).on('click', function() {
+            if (moving == 0) return;
+            moving = 0;
+            isClicked = true; // 标记为已点击
+            game_proccess += 2;
+            gsap.to('.pick_selection', { pointerEvents: 'none', duration: 0 });
 
-        var random = Math.random();
-        if (random < 0.5) {
-            playSelectionAnimation('#sel_1', 55, -10, 5);
-            playSelectionAnimation('#sel_2', -55, 10, 0);
-        } else {
-            playSelectionAnimation('#sel_1', 55, -10, 0);
-            playSelectionAnimation('#sel_2', -55, 10, 5);
-        }
+            // 确保点击时的动画不会冲突
+            var random = Math.random();
+            if (random < 0.5) {
+                playSelectionAnimation('#sel_1', 55, -10, 5);
+                playSelectionAnimation('#sel_2', -55, 10, 0);
+            } else {
+                playSelectionAnimation('#sel_1', 55, -10, 0);
+                playSelectionAnimation('#sel_2', -55, 10, 5);
+            }
 
-        setTimeout(() => {
-            gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
-            moving = 1;
-        }, 850);
+            setTimeout(() => {
+                gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
+                moving = 1;
+                isClicked = false; // 重置点击状态
+            }, 850);
+        });
     });
 }
+
 
 function countCKeys(obj) {
     let count = 0;

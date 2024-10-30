@@ -101,6 +101,7 @@ html, body {
     -moz-user-select:none;  /* for Mozilla、Firefox */
     -webkit-user-drag: none;
     -moz-user-select: none;
+    object-fit: cover;
 }
 
 .hide {
