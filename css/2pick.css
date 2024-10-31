@@ -7,7 +7,13 @@
     100% { transform: rotate(360deg);opacity: 0.25;}
 }
 
-
+img{
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select:none; /* standard syntax */
+    -webkit-user-select:none; /* for Chrome、Safari */
+    -moz-user-select:none;  /* for Mozilla、Firefox */
+}
 #sel_1{
     top: 0em; transform: rotate(-10deg); width: 30em; height: 30em;
     background-color: rgb(97, 128, 194);
@@ -29,6 +35,10 @@ header {
     height: 3em;
     margin-top: -2em;
     color: white;
+    -webkit-user-drag: none;
+    user-select:none; /* standard syntax */
+    -webkit-user-select:none; /* for Chrome、Safari */
+    -moz-user-select:none;  /* for Mozilla、Firefox */
 }
 html, body {
     margin: 0;
@@ -168,6 +178,9 @@ html, body {
     width: 100%;
     height: 100%;
     visibility: visible;
+    user-select:none; /* standard syntax */
+    -webkit-user-select:none; /* for Chrome、Safari */
+    -moz-user-select:none;  /* for Mozilla、Firefox */
 }
 .switch_cover{
     visibility: hidden;

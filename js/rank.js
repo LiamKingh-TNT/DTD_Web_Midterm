@@ -3,10 +3,12 @@ var ranking_rt = sessionStorage.getItem('ranking_rt');
 var class_infos;
 var class_id;
 var characters = [[]];
-
+var menubuttonCanClick = false;
 $(document).ready(function() {
     let data = sessionStorage.getItem('characters'); // 讀取字符串數據
     $('.loading_obj').css('visibility', 'hidden');
+    $('.menu_button').css('pointer-envents', 'none');
+    gsap.set('.menu_button',{y:1000});
     gsap.set('.loading_obj', {y:-500, opacity:0});
     console.log('Characters:', data); // 檢查生成的二維陣列
     if (data) {
@@ -62,32 +64,36 @@ $(document).ready(function() {
 });
 
 function mouseHover(){
-    $('.menu_button').on('mouseenter', function(){
-        gsap.to(this,{
-            scale:1.5
-        })
-        $('.menu_button_text').css('color','white');
-    });
-    $('.menu_button').on('mouseleave', function(){
-        gsap.to(this,{
-            scale:1
-        })
-        $('.menu_button_text').css('color','rgb(55, 63, 103)');
-    });
-    $(this).on('click', function() {
-        gsap.to('.loading_obj', {
-            opacity: 1,
-            y: '0em',
-            ease: 'power4.out',
-            duration:0.5,
-            onStart: function() {
-                $('.loading_obj').css('visibility', 'visible'); 
-            },
-            onComplete: function() {
-                window.location.href = "index.html";
-            }
+    if(menubuttonCanClick)
+    {
+        $('.menu_button').on('mouseenter', function(){
+            gsap.to(this,{
+                scale:1.5
+            })
+            $('.menu_button_text').css('color','white');
         });
-    });
+        $('.menu_button').on('mouseleave', function(){
+            gsap.to(this,{
+                scale:1
+            })
+            $('.menu_button_text').css('color','rgb(55, 63, 103)');
+        });
+        $(this).on('click', function() {
+            gsap.to('.loading_obj', {
+                opacity: 1,
+                y: '0em',
+                ease: 'power4.out',
+                duration:0.5,
+                onStart: function() {
+                    $('.loading_obj').css('visibility', 'visible'); 
+                },
+                onComplete: function() {
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    }
+    
 }
 
 function speedLine()
@@ -198,20 +204,25 @@ function gen_ranks() {
                 .to('.rank_1', { y: -150, duration: 2.5, ease: 'power2.inOut' })
                 .to('.rank_2', { y: 0, duration: 2.5, ease: 'power2.inOut' }, '<')
                 .to('.rank_3', { y: 100, duration: 2.5, ease: 'power2.inOut' }, '<')
-                .to('.rank_0', { y: 600, duration: 2.5, ease: 'power2.inOut'}, '<')
+                .to('.rank_0', { y: 600, duration: 2.5, ease: 'power2.inOut', onComplete:function(){$(".rank_0").css("visibility","hidden")}}, '<')
                 .to('.rank_1', { y: -550, duration: 1, ease: 'power2.in' })
                 .to('.rank_2', { y: -550, duration: 1, ease: 'power2.in' }, '<')
                 .to('.rank_3', { y: -550, duration: 1, ease: 'power2.in' }, '<')
-                .to('.rank_1', { y: -50,scaleX : 3.8,scaleY : 3,x: 0, duration: 0.5, ease: 'power4.in',onComplete:function(){gsap.to('.rank_1', {scaleX : 3.8,scaleY : 3.8,y:-60, duration: 0.3, ease: 'power4.out'})} })
-                .to('.rank_2', { y: 50,scaleX : 3,scaleY : 2, x: 250, duration: 1, ease: 'power4.in',onComplete:function(){gsap.to('.rank_2', {scaleX : 3,scaleY : 3,y:40, duration: 0.3, ease: 'power4.out'})} }, '<')
-                .to('.rank_3', { y: 100,scaleX : 2,scaleY : 1.5, x: -220, duration: 1.5, ease: 'power4.in',onComplete:function(){gsap.to('.rank_3', {scaleX : 2,scaleY : 2,y:90, duration: 0.3, ease: 'power4.out'})} }, '<')
+                .to('.rank_1', { y: -50,scaleX : 3.8,scaleY : 3,x: 0, duration: 0.5, ease: 'power4.in',onComplete:function(){gsap.to('.rank_1', {scaleX : 3,scaleY : 3,y:-60, duration: 0.3, ease: 'power4.out'})} })
+                .to('.rank_2', { y: 50,scaleX : 3,scaleY : 2, x: 250, duration: 1, ease: 'power4.in',onComplete:function(){gsap.to('.rank_2', {scaleX : 2.5,scaleY : 2.5,y:40, duration: 0.3, ease: 'power4.out'})} }, '<')
+                .to('.rank_3', { y: 100,scaleX : 2,scaleY : 1.5, x: -220, duration: 1.5, ease: 'power4.in',onComplete:function(){gsap.to('.rank_3', {scaleX : 2,scaleY : 2,y:70, duration: 0.3, ease: 'power4.out'})} }, '<')
                 .to('.speed_line', { opacity: 0, duration: 1.5, ease: 'power4.inOut' }, '<')
                 .to('.switch_cover', { gap: 0, duration: 1.5, ease: 'power4.inOut' }, '<')
-                .to('.menu_button', { y: 0, rotate: 10, visibility: 'visible', duration: 1, ease: 'power4.in' 
+                .to('.menu_button', { y: -20, rotate: 10, visibility: 'visible', duration: 1, ease: 'power4.in' 
                     ,onComplete:function(){
                         gsap.timeline()
-                        .to('.menu_button', { y: -40, rotate: -5, visibility: 'visible', duration: 0.3, ease: 'leaner' })
-                        .to('.menu_button', { y: -20, rotate: 0, visibility: 'visible', duration: 0.2, ease: 'power4.out' });
+                        .to('.menu_button', { y: -60, rotate: -5, visibility: 'visible', duration: 0.3, ease: 'leaner' })
+                        .to('.menu_button', { y: -40, rotate: 0, visibility: 'visible', duration: 0.2, ease: 'power4.out',onComplete:function(){
+                        menubuttonCanClick = true;
+                        console.log(menubuttonCanClick);
+                        mouseHover();
+                        $('.menu_button').css('pointer-envents', 'all');
+                        } });
                     }
                 }, '<')
                 
