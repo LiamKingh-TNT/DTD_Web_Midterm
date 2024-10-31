@@ -30,8 +30,12 @@ $(document).ready(function() {
         ranking_rt = ranking_rt.split(',').map(Number);
     }
     console.log("ranking_rt:" + ranking_rt);
-    ranking_rt = ranking_rt.reverse();
+    //ranking_rt = ranking_rt.reverse();
     characters = characters.reverse();
+    characters.sort((a, b) => {
+        return (parseInt(a[3]) - 1) - (parseInt(b[3]) - 1); // 根據第四個元素排序
+    });
+    console.log(characters);
     // 确保最后两个元素在 ranking_rt 数组中
     if (ranking_rt.length >= 2) {
         const lastTwo = ranking_rt.slice(-2); // 获取最后两个元素
@@ -120,31 +124,31 @@ function gen_ranks() {
     // 計算生成的排名數量（3 到 7 個）
     const temp = Math.min(Math.max(ranking_rt.length, minRanks), maxRanks);
     const maxItems = (temp % 2 === 0) ? temp - 1 : temp;
-
+    console.log('ranking_rt[0]' + ranking_rt[0])
     // 獲取排名區塊容器並清空
     const rankingBoxesContainer = document.querySelector('.ranking_boxes');
     rankingBoxesContainer.innerHTML = "";
 
     const centerIndex = Math.floor(maxItems / 2); // 中間位置索引
     const temp2 = ranking_rt.slice(0, maxItems)
-    var temp3 = [maxItems];
-    for(var i = 0, j = 1; i < temp2.length; i++)
+    temp2.reverse();
+    var temp3 = [];
+    console.log('maxItems : ' + maxItems);
+    console.log('temp2.length : ' + temp2.length);
+    for(var i = 0; i < temp2.length; i+=2)
     {
         if(i == 0)
         {
             temp3[centerIndex] = temp2[i];
         }
-        else if(i % 2 === 0)
+        else 
         {
-            temp3[centerIndex + j] = temp2[i];
-            j++;
-        }
-        else{
-            temp3[centerIndex - j] = temp2[i];
+            temp3[centerIndex + i] = temp2[i];
+            temp3[centerIndex - i] = temp2[i];
         }
     }
 
-    const sortedIndices =temp3;
+    const sortedIndices = temp3;
     console.log("sortedIndices:",sortedIndices);
     // 根據排名生成元素並按左右兩側排放
     sortedIndices.forEach((rankIndex, i) => {
