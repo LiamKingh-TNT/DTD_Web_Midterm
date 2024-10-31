@@ -13,7 +13,7 @@ html, body {
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    background-color: rgb(56, 75, 116);
+    background-color: rgb(68, 76, 94);
 }
 
 .speed_lines {
@@ -51,6 +51,7 @@ html, body {
     align-items: center;
     width: 100%;
     height: 100%;
+    z-index: 5; /* 設置更高的 z-index，確保在 .cover 上方 */
 }
 
 .ranking_boxes_img {
@@ -113,4 +114,130 @@ html, body {
 }
 .rank_0{
     background-color:rgb(57, 57, 57);
+}
+
+.switch_cover {
+    position: fixed;
+    pointer-events: none;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    justify-content: center;
+    z-index: 0; /* 設置更高的 z-index，確保在 .cover 上方 */
+    gap: 80em;
+}
+.door {
+    display: flex;
+    visibility: visible;
+    align-self: center;
+    width: 50%; /* 每扇門占一半寬度 */
+    height: 100%;
+    color: black;
+    font-size: 2em;
+    background-color: rgb(12, 122, 83); /* 確保顯示顏色 */
+    box-shadow: inset 1em 0 2em 2em rgba(48, 45, 60, 0.741);
+}
+
+.door_right{
+    padding: 0;
+    border-bottom: 0em;
+    border-top: 0em;
+    border-left: 2em;
+    border-right: 0em;
+    border-style: solid;
+    border-color: rgb(154, 147, 166);
+}
+.door_left{
+    padding: 0;
+    border-bottom: 0em;
+    border-top: 0em;
+    border-left: 0em;
+    border-right: 2em;
+    border-style: solid;
+    border-color: rgb(154, 147, 166);
+}
+
+.buttons{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    top:0;
+    justify-content: center;
+    z-index: 10;
+}
+
+
+
+.menu_button{
+    display: flex;
+    width: 16em;
+    height: 8em;
+    position:fixed;
+    border:  1em solid darkgoldenrod;
+    border-radius: 2em;
+    align-self:center;
+    justify-content: center;
+    margin-top: 50em;
+    background-color: rgb(107, 119, 133);
+    visibility: hidden;
+}
+
+.menu_button_text{
+    display: flex;
+    align-self: center;
+    color: rgb(55, 63, 103);
+    font-size: 3em;
+}
+.cover{
+    position: fixed;
+    top: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(59, 51, 110);
+    z-index: 100;
+    justify-content: center;
+}
+.cover_inside{
+    display: flex;
+    align-self: center;
+    width: fit-content;
+    height: 35%;
+    background-color: rgb(90, 81, 149);
+    border-radius: 5em;
+    border: 2em solid rgb(49, 30, 83);
+}
+.loading_roll{
+    display: flex;
+    margin-left: 3em;
+    align-self: center;
+
+    width: 8em;
+    height: 8em;
+}
+.loading_text {
+    display: flex;
+    align-self: center;
+    font-size: 8em;
+    line-height: 1; /* 調整行高，避免過多空白 */
+    margin: 0; /* 去掉預設的 margin */
+}
+
+.loading_text_groupe {
+    display: flex;
+    margin-right: 5em; /* 文字組的右邊距 */
+    height: 100%; /* 高度設為 100% */
+}
+.loading_dot{
+    display: flex;
+    align-self: center;
+    width: 2em;
+    height: 2em;
+    background-color: rgb(0, 0, 0);
+    border-radius: 100%;
+    margin-left: 3em;
 }

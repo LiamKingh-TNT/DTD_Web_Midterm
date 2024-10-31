@@ -6,6 +6,8 @@ var characters = [[]];
 
 $(document).ready(function() {
     let data = sessionStorage.getItem('characters'); // 讀取字符串數據
+    $('.loading_obj').css('visibility', 'hidden');
+    gsap.set('.loading_obj', {y:-500, opacity:0});
     console.log('Characters:', data); // 檢查生成的二維陣列
     if (data) {
         // 1. 分割字符串為一維數組
@@ -53,10 +55,40 @@ $(document).ready(function() {
     
     speedLine();
     gen_ranks();
+    mouseHover();
     console.log('Characters:', characters); // 檢查生成的二維陣列
 
 
 });
+
+function mouseHover(){
+    $('.menu_button').on('mouseenter', function(){
+        gsap.to(this,{
+            scale:1.5
+        })
+        $('.menu_button_text').css('color','white');
+    });
+    $('.menu_button').on('mouseleave', function(){
+        gsap.to(this,{
+            scale:1
+        })
+        $('.menu_button_text').css('color','rgb(55, 63, 103)');
+    });
+    $(this).on('click', function() {
+        gsap.to('.loading_obj', {
+            opacity: 1,
+            y: '0em',
+            ease: 'power4.out',
+            duration:0.5,
+            onStart: function() {
+                $('.loading_obj').css('visibility', 'visible'); 
+            },
+            onComplete: function() {
+                window.location.href = "index.html";
+            }
+        });
+    });
+}
 
 function speedLine()
 {
@@ -146,6 +178,7 @@ function gen_ranks() {
     runners.forEach((runner, index) => {
         const initialY = -Math.random() * 100; // 隨機起始偏移
         gsap.set(runner, { y: initialY });
+        gsap.set('.menu_button', { y: -1200, rotate: 10 });
     });
 
     // 定義各個排名的主賽跑動畫和隨機 X 軸偏移
@@ -169,9 +202,19 @@ function gen_ranks() {
                 .to('.rank_1', { y: -550, duration: 1, ease: 'power2.in' })
                 .to('.rank_2', { y: -550, duration: 1, ease: 'power2.in' }, '<')
                 .to('.rank_3', { y: -550, duration: 1, ease: 'power2.in' }, '<')
-                .to('.rank_1', { y: -50,scale : 3.8, duration: 0.5, ease: 'power4.inOut' })
-                .to('.rank_2', { y: 50,scale : 3, x: 200, duration: 1, ease: 'power4.inOut' }, '<')
-                .to('.rank_3', { y: 50,scale : 2, x: -200, duration: 1.5, ease: 'power4.inOut' }, '<');
+                .to('.rank_1', { y: -50,scaleX : 3.8,scaleY : 3,x: 0, duration: 0.5, ease: 'power4.in',onComplete:function(){gsap.to('.rank_1', {scaleX : 3.8,scaleY : 3.8,y:-60, duration: 0.3, ease: 'power4.out'})} })
+                .to('.rank_2', { y: 50,scaleX : 3,scaleY : 2, x: 250, duration: 1, ease: 'power4.in',onComplete:function(){gsap.to('.rank_2', {scaleX : 3,scaleY : 3,y:40, duration: 0.3, ease: 'power4.out'})} }, '<')
+                .to('.rank_3', { y: 100,scaleX : 2,scaleY : 1.5, x: -220, duration: 1.5, ease: 'power4.in',onComplete:function(){gsap.to('.rank_3', {scaleX : 2,scaleY : 2,y:90, duration: 0.3, ease: 'power4.out'})} }, '<')
+                .to('.speed_line', { opacity: 0, duration: 1.5, ease: 'power4.inOut' }, '<')
+                .to('.switch_cover', { gap: 0, duration: 1.5, ease: 'power4.inOut' }, '<')
+                .to('.menu_button', { y: 0, rotate: 10, visibility: 'visible', duration: 1, ease: 'power4.in' 
+                    ,onComplete:function(){
+                        gsap.timeline()
+                        .to('.menu_button', { y: -40, rotate: -5, visibility: 'visible', duration: 0.3, ease: 'leaner' })
+                        .to('.menu_button', { y: -20, rotate: 0, visibility: 'visible', duration: 0.2, ease: 'power4.out' });
+                    }
+                }, '<')
+                
                 // 隨機 X 軸偏移動畫
                 gsap.to(runner, {
                     x: () => gsap.utils.random(-20, 20), // 隨機的 X 軸偏移範圍
@@ -210,10 +253,10 @@ function createRankingBox(index, rank) {
     boxFoot.className = 'ranking_box_foot';
     const footText1 = document.createElement('h1');
     footText1.className = 'ranking_box_foot_text';
-    footText1.textContent = `Selection ${characters[index][0]}`;
+    footText1.textContent = `${characters[index][0]}`;
     const footText2 = document.createElement('h2');
     footText2.className = 'ranking_box_foot_text_2';
-    footText2.textContent = `Selection ${characters[index][1]}`;
+    footText2.textContent = `${characters[index][1]}`;
     boxFoot.appendChild(footText1);
     boxFoot.appendChild(footText2);
 

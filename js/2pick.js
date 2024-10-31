@@ -18,6 +18,7 @@ $(document).ready(function() {
     gsap.to('#sel_1', { top: '60em', scaleX: 0.6, scaleY: 1.2, transform: `translate(55%)` });
     gsap.to('#sel_2', { top: '60em', scaleX: 0.6, scaleY: 1.2, transform: `translate(-55%)` });
     $('.pick_selection').css('pointer-events', 'none');
+    $('.door').css('visibility', 'hidden'); 
     gsap.fromTo('.loading_roll', 
         { rotate: 0 }, // 開始狀態
         { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
@@ -104,15 +105,15 @@ $(document).ready(function() {
                 opacity: 0,
                 y: '-100em',
                 ease: 'power.out',
-                duration: 1,
+                duration: 1.5,
                 delay: 1,
                 onStart: function() {
-                    $('.loading_obj').css('display', 'none'); // 在动画结束后隐藏 loading_obj
                     loading = false;
                     playSelectionAnimation('#sel_1', 55, -10, 5);
                     playSelectionAnimation('#sel_2', -55, 10, 0);
                 },
                 onComplete: function() {
+                    $('.loading_obj').css('visibility', 'hidden'); // 在动画结束后隐藏 loading_obj
                     gsap.to('.pick_selection', { pointerEvents: 'auto', duration: 0 });
                     moving = 1;
                 }
@@ -127,7 +128,7 @@ $(document).ready(function() {
     // 初始化動畫
     console.log(characters);
     mouseHoverEffects();
-    
+    mouseHover();
     
 });
 
@@ -170,6 +171,7 @@ function setPicture(_game_proccess) {
                 ease:'power.in',
                 duration:0.3,
                 onStart:function(){
+                    $('.door').css('visibility', 'visible'); 
                     $('.switch_cover').css('pointer-events','all');
                     console.log('ranking_rt: ' + ranking_rt);
                     console.log('ranking_rt.length: ' + ranking_rt.length);
@@ -240,6 +242,35 @@ function playSelectionAnimation(selector, translateX, rotation, zl) {
     );
 }
 
+function mouseHover(){
+    $('.menu_button').on('mouseenter', function(){
+        gsap.to(this,{
+            scale:1.5
+        })
+        $('.menu_button_text').css('color','white');
+    });
+    $('.menu_button').on('mouseleave', function(){
+        gsap.to(this,{
+            scale:1
+        })
+        $('.menu_button_text').css('color','rgb(55, 63, 103)');
+    });
+    $('.menu_button').on('click', function() {
+        gsap.to('.loading_obj', {
+            opacity: 1,
+            y: '0em',
+            ease: 'power4.out',
+            duration:1.5,
+            onStart: function() {
+                $('.loading_obj').css('visibility', 'visible'); 
+                $('.loading_obj').css('z-index', '100'); 
+            },
+            onComplete: function() {
+                window.location.href = "index.html";
+            }
+        });
+    });
+}
 
 function mouseHoverEffects() {
     console.log(loading);
