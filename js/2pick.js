@@ -178,7 +178,13 @@ function setPicture(_game_proccess) {
                         console.log(i + ' : ' + ranking_rt[i])
                     }
                     gsap.set('.pick_selection',{opacity:0});
+                    sessionStorage.setItem('ranking_rt', ranking_rt);
+                    sessionStorage.setItem('characters', characters);
+                    
                     return true;
+                },
+                onComplete:function(){
+                    window.location.href = "rank.html";
                 }
         })
         }

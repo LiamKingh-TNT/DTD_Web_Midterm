@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(56, 75, 116);
+}
+
+.speed_lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.speed_line {
+    position: absolute;
+    width: 3px;
+    height: 100px;
+    background: white;
+    opacity: 0.2;
+}
+
+.ranking_box {
+    width: 10em;  /* 容器寬度 */
+    height: 10em; /* 容器高度，與寬度相同 */
+    padding: 10px;
+    border: 0px;
+    border-radius: 2em;
+    box-shadow: 0.5em 0.5em 0.8em rgba(62, 64, 65, 0.267);
+    position: relative;
+    margin: 0 1.5em;  /* 添加 margin 使選擇框之間有距離 */
+    background-color: rgb(61, 61, 144);
+}
+
+.ranking_boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.ranking_boxes_img {
+    width: 100%; /* 使容器寬度為 100% */
+    height: 100%; /* 高度自動調整 */
+    overflow: hidden; /* 隱藏超出範圍的內容 */
+    display: flex; /* 使用 Flexbox */
+    justify-content: center; /* 中心對齊內容 */
+    align-items: center; /* 垂直中心對齊 */
+}
+
+.ranking_box_img {
+    width: 100%; /* 使圖片寬度為 100% */
+    height: 100%; /* 使圖片高度為 100% */
+    object-fit: cover; /* 使圖片填滿容器，保持比例 */
+    border-radius: 1.5em; /* 圓角邊框 */
+}
+
+.ranking_box_foot {
+    width: 100%;
+    height: 20%;
+    position: relative;
+    top: -20%;
+    padding: 0;
+    overflow: hidden;
+    display: table;
+    box-sizing: border-box;
+    background-color: rgba(85, 85, 85, 0.653);
+    border-radius: 0em 0em 1.5em 1.5em;
+}
+
+.ranking_box_foot_text,
+.ranking_box_foot_text_2 {
+    position: relative;
+    text-align: center;
+    vertical-align: text-bottom;
+    text-decoration: none;
+    line-height: 0em;
+    color: white;
+}
+
+.ranking_box_foot_text {
+    margin-top: 0.5em;
+    font-size: clamp(2px, 2vw, 12px);
+}
+
+.ranking_box_foot_text_2 {
+    margin-top: 1em;
+    font-size: clamp(1px, 1vw, 9px);
+}
