@@ -103,7 +103,7 @@ $(document).ready(function() {
             duration:2.5,
             delay: 2,
             onComplete: function() {
-                $('.loading_obj').css('display', 'none'); // 在動畫結束後隱藏 loading_obj
+                $('.loading_obj').css('visibility', 'hidden'); // 在動畫結束後隱藏 loading_obj
             }
         });
 
@@ -117,9 +117,22 @@ $(document).ready(function() {
         sessionStorage.setItem("class_id", class_id);
         // 跳轉到 2pick 頁面
         if(class_id != null){
+            gsap.to('.loading_obj', {
+                opacity: 1,
+                y: '0em',
+                ease: 'power.out',
+                duration:1.5,
+                onStart: function() {
+                    $('.loading_obj').css('visibility', 'visible'); // 在動畫結束後隱藏 loading_obj
+                },
+                onComplete:function(){
+                    setTimeout(() => {
+                        window.location.href = "2pick.html";
+                    }, 500);
+                }
+            });
             console.log(class_infos);
             console.log(class_id);
-            window.location.href = "2pick.html";
         }
     });
 

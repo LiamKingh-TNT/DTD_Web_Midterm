@@ -55,6 +55,7 @@ html, body {
     position: relative;
     margin: 0 1.5em;  /* 添加 margin 使選擇框之間有距離 */
     -webkit-user-drag: none;
+    pointer-events: none;
 }
 
 .selections_box {
