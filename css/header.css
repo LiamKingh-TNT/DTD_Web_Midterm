@@ -16,7 +16,7 @@ header{
     justify-content: center;
     align-self: center;
     border-radius: 50%;
-    border: 0.2em solid rgb(69, 82, 99);
+    border: 0.2em solid rgb(255, 255, 255);
     width: 4em;
     height: 4em;
 }
@@ -43,4 +43,6 @@ header a img{
 .login{
     color:white;
     text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
 }

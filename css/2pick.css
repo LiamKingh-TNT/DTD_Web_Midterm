@@ -28,7 +28,7 @@ header {
     padding: 1em; /* 標題的內邊距 */
     height: 3em;
     margin-top: -2em;
-    color: rgb(97, 184, 235);
+    color: white;
 }
 html, body {
     margin: 0;
@@ -38,7 +38,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(63, 97, 171);
+    background-color: rgb(59, 51, 110);
     overflow: hidden;
 }
 .selected{
