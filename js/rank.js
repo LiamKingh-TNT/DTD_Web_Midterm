@@ -6,6 +6,7 @@ var characters = [[]];
 
 $(document).ready(function() {
     let data = sessionStorage.getItem('characters'); // 讀取字符串數據
+    console.log('Characters:', data); // 檢查生成的二維陣列
     if (data) {
         // 1. 分割字符串為一維數組
         const items = data.split(',');
@@ -26,25 +27,18 @@ $(document).ready(function() {
     }
     console.log('Characters:', characters); // 檢查生成的二維陣列
 
+    console.log("ranking_rt:" + ranking_rt);
     if (typeof ranking_rt === 'string') {
         ranking_rt = ranking_rt.split(',').map(Number);
     }
     console.log("ranking_rt:" + ranking_rt);
-    //ranking_rt = ranking_rt.reverse();
-    characters = characters.reverse();
-    characters.sort((a, b) => {
-        return (parseInt(a[3]) - 1) - (parseInt(b[3]) - 1); // 根據第四個元素排序
-    });
     console.log(characters);
-    // 确保最后两个元素在 ranking_rt 数组中
-    if (ranking_rt.length >= 2) {
-        const lastTwo = ranking_rt.slice(-2); // 获取最后两个元素
-        console.log("最后两个元素:", lastTwo);
-    }
-
-    // 打印排序后的数组
+    ranking_rt = ranking_rt.reverse();
+    characters = characters;
+    /*characters.sort((a, b) => {
+        return (parseInt(a[3]) - 1) - (parseInt(b[3]) - 1); // 根據第四個元素排序
+    });*/
     console.log("排序后的 ranking_rt:", ranking_rt);
-    console.log("ranking_rt:" + ranking_rt);
 
     const firebaseConfig = {
         apiKey: "AIzaSyDRpvapxNXt_gWmlXVoA_M6ZoayyvXLpRY",
@@ -125,67 +119,90 @@ function gen_ranks() {
     const temp = Math.min(Math.max(ranking_rt.length, minRanks), maxRanks);
     const maxItems = (temp % 2 === 0) ? temp - 1 : temp;
     console.log('ranking_rt[0]' + ranking_rt[0])
+    console.log("characters[ranking_rt[0]] : " + characters[ranking_rt[0]]);
     // 獲取排名區塊容器並清空
     const rankingBoxesContainer = document.querySelector('.ranking_boxes');
     rankingBoxesContainer.innerHTML = "";
 
     const centerIndex = Math.floor(maxItems / 2); // 中間位置索引
-    const temp2 = ranking_rt.slice(0, maxItems)
+    console.log('centerIndex : ' + centerIndex);
+    const temp2 = ranking_rt.slice(0, maxItems);
+    console.log('temp2 '+temp2);
     temp2.reverse();
-    var temp3 = [];
-    console.log('maxItems : ' + maxItems);
-    console.log('temp2.length : ' + temp2.length);
-    for(var i = 0; i < temp2.length; i+=2)
-    {
-        if(i == 0)
-        {
-            temp3[centerIndex] = temp2[i];
-        }
-        else 
-        {
-            temp3[centerIndex + i] = temp2[i];
-            temp3[centerIndex - i] = temp2[i];
-        }
-    }
-
+    var temp3 = rearrangeArray(temp2);
     const sortedIndices = temp3;
     console.log("sortedIndices:",sortedIndices);
-    // 根據排名生成元素並按左右兩側排放
-    sortedIndices.forEach((rankIndex, i) => {
-        // 使用排序後的 rankIndex 來獲取 ranking_rt 的值
-        const rankValue = ranking_rt[rankIndex]; // 確保這裡是正確的索引
-        if (rankValue === undefined) return; // 防止未定義的情況
+    for(var i = 0; i < sortedIndices.length; i++)
+    {
+        var the_rank = 0;
+        if(i == Math.floor(sortedIndices.length / 2)) the_rank = 1;
+        if(i == Math.floor(sortedIndices.length / 2) +1 ) the_rank = 2;
+        if(i == Math.floor(sortedIndices.length / 2) -1) the_rank = 3;
+        createRankingBox(sortedIndices[i], the_rank);
+    }
+    const runners = document.querySelectorAll('.ranking_box');
 
-        const rankingBox = createRankingBox(rankIndex); // 使用原始索引生成 rankingBox
-        if (!rankingBox) return;
-
-        if (i === 0) {
-            // 第一名放置在中間
-            rankingBoxesContainer.insertBefore(rankingBox, rankingBoxesContainer.children[centerIndex] || null);
-        } else if (i % 2 === 1) {
-            // 奇數索引放置在右側
-            rankingBoxesContainer.insertBefore(rankingBox, rankingBoxesContainer.children[centerIndex + i]);
-        } else {
-            // 偶數索引放置在左側
-            rankingBoxesContainer.insertBefore(rankingBox, rankingBoxesContainer.children[centerIndex - i]);
-        }
+    // 設定初始隨機 Y 軸偏移位置
+    runners.forEach((runner, index) => {
+        const initialY = -Math.random() * 100; // 隨機起始偏移
+        gsap.set(runner, { y: initialY });
     });
+
+    // 定義各個排名的主賽跑動畫和隨機 X 軸偏移
+    runners.forEach((runner, index) => {
+        const yDistance = 600 + index * 300; // 隨著排名遞增的 Y 軸目標距離
+        const duration = 5 + index; // 隨著排名遞增的時間
+        gsap.set(runner, {
+            y: yDistance, // 目標 Y 位置
+            ease: "power2.inOut",
+            onComplete:function(){
+                // 定義各個排名的動畫效果
+                gsap.timeline()
+                .to('.rank_1', { y: -200, duration: 4, ease: 'power2.inOut' })
+                .to('.rank_2', { y: -100, duration: 4.5, ease: 'power2.inOut' }, '<')
+                .to('.rank_3', { y: 0, duration: 5, ease: 'power2.inOut' }, '<')
+                .to('.rank_0', { y: 100, duration: 5.5, ease: 'power2.inOut' , stagger:0.5}, '<')
+                .to('.rank_1', { y: -150, duration: 2.5, ease: 'power2.inOut' })
+                .to('.rank_2', { y: 0, duration: 2.5, ease: 'power2.inOut' }, '<')
+                .to('.rank_3', { y: 100, duration: 2.5, ease: 'power2.inOut' }, '<')
+                .to('.rank_0', { y: 600, duration: 2.5, ease: 'power2.inOut'}, '<')
+                .to('.rank_1', { y: -550, duration: 1, ease: 'power2.in' })
+                .to('.rank_2', { y: -550, duration: 1, ease: 'power2.in' }, '<')
+                .to('.rank_3', { y: -550, duration: 1, ease: 'power2.in' }, '<')
+                .to('.rank_1', { y: -50,scale : 3.8, duration: 0.5, ease: 'power4.inOut' })
+                .to('.rank_2', { y: 50,scale : 3, x: 200, duration: 1, ease: 'power4.inOut' }, '<')
+                .to('.rank_3', { y: 50,scale : 2, x: -200, duration: 1.5, ease: 'power4.inOut' }, '<');
+                // 隨機 X 軸偏移動畫
+                gsap.to(runner, {
+                    x: () => gsap.utils.random(-20, 20), // 隨機的 X 軸偏移範圍
+                    duration: 0.2, // 每次偏移的持續時間
+                    repeat: duration * 6, // 偏移次數，和總時間相關
+                    yoyo: true, // 使偏移往復
+                    ease: "sine.inOut",
+                });
+            }
+        }) ;
+
+        
+    });
+
 }
 
 
-function createRankingBox(index) {
+
+function createRankingBox(index, rank) {
     console.log("ranking_rt:" + ranking_rt);
     if (ranking_rt[index] === undefined) return null;
 
     const rankingBox = document.createElement('div');
-    rankingBox.className = 'ranking_box';
-    rankingBox.id = `sel_${characters[ranking_rt[index] - 1][3]}`;
+    rankingBox.className = `ranking_box rank_${rank}`;
+    rankingBox.id = `sel_${characters[index][3]}`;
 
     // 創建圖片框架和文字內容
     const imgFrame = document.createElement('div');
     imgFrame.className = 'ranking_boxes_img';
     const img = document.createElement('img');
-    img.src = `${characters[ranking_rt[index] - 1][2]}`; // 根據需要修改圖片路徑
+    img.src = `${characters[index][2]}`;
     img.className = 'ranking_box_img';
     imgFrame.appendChild(img);
 
@@ -193,10 +210,10 @@ function createRankingBox(index) {
     boxFoot.className = 'ranking_box_foot';
     const footText1 = document.createElement('h1');
     footText1.className = 'ranking_box_foot_text';
-    footText1.textContent = `Selection ${characters[ranking_rt[index] - 1][0]}`;
+    footText1.textContent = `Selection ${characters[index][0]}`;
     const footText2 = document.createElement('h2');
     footText2.className = 'ranking_box_foot_text_2';
-    footText2.textContent = `Selection ${characters[ranking_rt[index] - 1][1]}`;
+    footText2.textContent = `Selection ${characters[index][1]}`;
     boxFoot.appendChild(footText1);
     boxFoot.appendChild(footText2);
 
@@ -207,19 +224,29 @@ function createRankingBox(index) {
     document.querySelector('.ranking_boxes').appendChild(rankingBox);
 
     // 設置動畫
-    gsap.set(`#sel_${characters[ranking_rt[index] - 1][3]}`, { y: 1000 }); // 初始位置設置在下方
-    const baseDuration = 1.5; // 基本動畫時長
-    const duration = baseDuration + (index * 0.6); // 根據排名調整速度
-    gsap.fromTo(
-        `#sel_${characters[ranking_rt[index] - 1][3]}`,
-        { y: '100%', opacity: 0 },
-        {
-            y: '-10%',
-            opacity: 1,
-            duration: Math.max(duration, 0.5), // 最低動畫時長限制
-            ease: "power4.out",
-        }
-    );
+    gsap.set(`#sel_${characters[index][3]}`, { y: 1000 });
+    const baseDuration = 1.5;
+    const duration = baseDuration + (((rank === 0) ? 20 : rank * rank) * 0.8);
+
 
     return rankingBox;
+}
+
+
+
+function rearrangeArray(arr) {
+    const length = arr.length;
+    const result = new Array(length);  // 創建與原陣列相同長度的結果陣列
+    var cal = arr.reverse();
+    // 獲取中心索引，並將中心元素放置在新的中心位置
+    let centerIndex = Math.floor(length / 2);
+    result[centerIndex] = cal[0];
+    for(var i = 0; i < arr.length; i+=2)
+    {
+        if(i === 0) continue;
+        result[centerIndex - i/2] = cal[i];
+        result[centerIndex + i/2] = cal[i -1];
+    }
+
+    return result;
 }

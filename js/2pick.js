@@ -283,8 +283,8 @@ function mouseHoverEffects() {
             
             if($('.lose').attr('id') == 'sel_1')
             {
-                ranking_rt[rank] = vs_order[game_proccess];
-                ranking_rt[rank + 1] = vs_order[game_proccess + 1];
+                ranking_rt[rank] = vs_order[game_proccess] - 1;
+                ranking_rt[rank + 1] = vs_order[game_proccess + 1] - 1;
                 vs_order[game_proccess] = 0;
                 console.log('vs_order :' + vs_order + ' \ngame_proccess :'+game_proccess)
                 game_proccess += 2;
@@ -292,8 +292,8 @@ function mouseHoverEffects() {
     
             }
             else{
-                ranking_rt[rank] = vs_order[game_proccess + 1];
-                ranking_rt[rank + 1] = vs_order[game_proccess];
+                ranking_rt[rank] = vs_order[game_proccess + 1] - 1;
+                ranking_rt[rank + 1] = vs_order[game_proccess] - 1;
                 vs_order[game_proccess + 1] = 0;
                 console.log('vs_order :' + vs_order + ' \ngame_proccess :'+game_proccess)
                 game_proccess += 2;

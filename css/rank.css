@@ -101,3 +101,16 @@ html, body {
     margin-top: 1em;
     font-size: clamp(1px, 1vw, 9px);
 }
+
+.rank_1{
+    background-color:goldenrod;
+}
+.rank_2{
+    background-color:silver;
+}
+.rank_3{
+    background-color:rgb(235, 115, 41);
+}
+.rank_0{
+    background-color:rgb(57, 57, 57);
+}
