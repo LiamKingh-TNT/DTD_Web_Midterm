@@ -78,7 +78,7 @@ function mouseHover(){
             })
             $('.menu_button_text').css('color','rgb(55, 63, 103)');
         });
-        $(this).on('click', function() {
+        $('.menu_button').on('click', function() {
             gsap.to('.loading_obj', {
                 opacity: 1,
                 y: '0em',
