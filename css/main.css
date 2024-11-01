@@ -23,6 +23,12 @@ img{
     flex: 1; 
     overflow: hidden; 
 }
+.left-image{
+    background-image: url('../images/one_left.png');
+}
+.right-image{
+    background-image: url('../images/one_right.png');
+}
 
 .main-img{
     width: 100%; 
