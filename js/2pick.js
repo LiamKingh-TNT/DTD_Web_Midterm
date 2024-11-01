@@ -130,6 +130,7 @@ $(document).ready(function() {
     mouseHoverEffects();
     mouseHover();
     
+    
 });
 
 function setPicture(_game_proccess) {
@@ -137,6 +138,7 @@ function setPicture(_game_proccess) {
     // 检查 game_proccess 的值，确保在范围内
             console.log('vs_order',vs_order);
             console.log('game_proccess',_game_proccess);
+            $('.round_displayer').text('剩餘倫次:' + (now_rounds + 1) +'/' + (game_rounds) + ' | 本輪剩餘選項:' + (vs_order.length - (game_proccess))/2 + '/' + vs_order.length/2);
     if (_game_proccess < vs_order.length - 1) {
         // 获取当前和下一个成员的索引
         const currentIndex = vs_order[_game_proccess] - 1; // 因为 vs_order 的索引是从 1 开始的
@@ -329,8 +331,9 @@ function mouseHoverEffects() {
                 console.log('vs_order :' + vs_order + ' \ngame_proccess :'+game_proccess)
                 game_proccess += 2;
                 rank++;
-    
+                
             }
+            $('.round_displayer').text('剩餘倫次:' + (now_rounds + 1) +'/' + (game_rounds) + ' | 本輪剩餘選項:' + (vs_order.length - (game_proccess))/2 + '/' + vs_order.length/2);
             console.log('game_proccess:' + game_proccess);
             console.log('ranking_rt:' + ranking_rt);
             battleAnimation(this, ".lose"); // sel_1為贏家，sel_2為輸家
