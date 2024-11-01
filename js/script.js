@@ -2,6 +2,7 @@
 var class_id;
 var class_infos;
 var can_start;
+var menu_clicked = false;
 
 $(document).ready(function() {
     $('.door').css('visibility','hidden');
@@ -138,7 +139,7 @@ $(document).ready(function() {
     });
 
     $('.room-button').click(function() {
-        
+        if(menu_clicked) return;
         var swtl = gsap.timeline();
         swtl.to('.switch_cover',{
             gap:0,
@@ -147,6 +148,7 @@ $(document).ready(function() {
             onStart:function(){
                 $('.door').css('visibility','visible');
                 $('.switch_cover').css('pointer-events','all');
+                menu_clicked=true;
             }
         })
         swtl.to('.switch_cover',{
@@ -157,6 +159,7 @@ $(document).ready(function() {
             onComplete:function(){
                 $('.door').css('visibility','hidden');
                 $('.switch_cover').css('pointer-events','none');
+                menu_clicked=false;
             }
         })
         setTimeout(() => {
