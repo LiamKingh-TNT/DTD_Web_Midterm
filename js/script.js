@@ -4,6 +4,7 @@ var class_infos;
 var can_start;
 
 $(document).ready(function() {
+    $('.door').css('visibility','hidden');
     class_id = null;
     can_start = false;
     const firebaseConfig = {
@@ -144,6 +145,7 @@ $(document).ready(function() {
             ease:'power.in',
             duration:0.3,
             onStart:function(){
+                $('.door').css('visibility','visible');
                 $('.switch_cover').css('pointer-events','all');
             }
         })
@@ -153,6 +155,7 @@ $(document).ready(function() {
             duration:0.3,
             delay:0.5,
             onComplete:function(){
+                $('.door').css('visibility','hidden');
                 $('.switch_cover').css('pointer-events','none');
             }
         })
