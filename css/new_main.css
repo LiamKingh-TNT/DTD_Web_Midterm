@@ -5,6 +5,10 @@ body, html{
     overflow:hidden;
     overflow-y: hidden;
     overflow-x: hidden;
+    -webkit-text-size-adjust: none; 
+    -moz-text-size-adjust: none; 
+    -ms-text-size-adjust: none; 
+    text-size-adjust: none;
 }
 .search_field{
     width: 50px;
