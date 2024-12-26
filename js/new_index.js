@@ -74,7 +74,13 @@ $(document).ready(function() {
         selection_count = docs.length > 18? 18: docs.length;
         const selectedDoc = getRandomDoc(docs, selection_count);  
         console.log("隨機選擇的文檔:", selectedDoc);
-        picture_array = new Array(selection_count);
+        picture_array = new Array(selection_count); // 创建一维数组
+
+        for (let i = 0; i < selection_count; i++) {
+            picture_array[i] = new Array(2); // 每个元素再初始化为一个数组（列数为 2）
+            picture_array[i][0] = '../images/one_right.png';
+            picture_array[i][1] = '../images/one_left.png';
+        }
 
         for(var i = 1; i <= selection_count; i++) {
             const data = selectedDoc[i - 1].data;  
@@ -85,7 +91,7 @@ $(document).ready(function() {
                 
                 // 隨機選擇兩個成員的索引
                 const randomIndexes = [];
-                while (randomIndexes.length < 2) {
+                while (randomIndexes.length < 3) {
                     const rand = Math.floor(Math.random() * menberKeys.length);
                     if (!randomIndexes.includes(rand)) {
                         randomIndexes.push(rand);
@@ -94,8 +100,10 @@ $(document).ready(function() {
 
                 // 獲取一個隨機成員的資料
                 const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
-                picture_array[i - 1] = class_menbers[menberKeys[randomIndexes[1]]][2];
-                if(i > 0) $('.background_img').css('background-image',`url(${picture_array[1]})`);
+                picture_array[i - 1][0] = class_menbers[menberKeys[randomIndexes[1]]][2];
+                picture_array[i - 1][1] = class_menbers[menberKeys[randomIndexes[2]]][2];
+                if(i > 0) $('.background_img_right').css('background-image',`url(${picture_array[1][0]})`);
+                if(i > 0) $('.background_img_left').css('background-image',`url(${picture_array[1][1]})`);
                 // 設置圖片源
                 $(card_list[i-1]).attr('id', '#' + selectedDoc[i - 1].id);
                 console.log(selectedDoc[i-1].id);
@@ -150,7 +158,7 @@ $(document).ready(function() {
                 gsap.to('.card',{
                     scale:1
                 })
-                
+
             },
             onComplete: () => {
                 // 動畫完成後，啟動冷卻計時
@@ -164,8 +172,16 @@ $(document).ready(function() {
                     selection_id = 0;
                 }
                 $('.card' + selection_id).css('pointer-events', 'auto');
-                console.log(picture_array[selection_id]);
-                $('.background_img').css('background-image',`url(${picture_array[selection_id]})`);
+                if(picture_array.length > selection_id)
+                {
+                    console.log(picture_array[selection_id][0]);
+                    $('.background_img_right').css('background-image',`url(${picture_array[selection_id][0]})`);
+                    $('.background_img_left').css('background-image',`url(${picture_array[selection_id][1]})`);
+                }
+                else{
+                    $('.background_img_right').css('background-image',`url(../images/one_right.png)`);
+                    $('.background_img_left').css('background-image',`url(../images/one_left.png)`);
+                }
                 setTimeout(() => {
                     isCooldown = false; // 冷卻結束
                 }, cooldownTime);
