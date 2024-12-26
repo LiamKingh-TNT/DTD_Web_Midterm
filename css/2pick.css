@@ -203,3 +203,82 @@ html, body {
 .switch_cover{
     visibility: hidden;
 }
+
+@media (max-width: 600px) {
+    /* 使頁面自適應手機屏幕 */
+    body {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    header, footer {
+        position: static; /* 取消固定位置，讓它們隨頁面滾動 */
+        padding: 0.5em;
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    /* 調整選擇框的大小 */
+    .pick_selection {
+        width: 10em;  /* 更小的寬度 */
+        height: 10em;  /* 更小的高度 */
+        margin: 0.5em; /* 減小選擇框之間的距離 */
+    }
+
+    .selections_box {
+        flex-direction: column;
+        margin-top: 5em;
+    }
+
+    .seletion_box {
+        width: 100%;
+        height: 100%;
+        border-radius: 1em;
+        box-shadow: inset 0em 0em 3em 1em rgba(62, 64, 65, 0.799);
+    }
+
+    /* 讓選項文字大小更適應小螢幕 */
+    .seletion_box_foot_text, .seletion_box_foot_text_2 {
+        font-size: clamp(10px, 4vw, 18px);
+    }
+
+    .seletion_box_foot_text {
+        margin-top: 0.5em;
+    }
+
+    .seletion_box_foot_text_2 {
+        margin-top: 0.8em;
+    }
+
+    .selected_beam {
+        width: 40em;  /* 減少光束的大小 */
+        height: 40em;
+    }
+
+    .menu_button {
+        width: 4em;
+        height: 4em;
+        margin-top: 1em;
+    }
+
+    .menu_button img {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 隱藏開關封面 */
+    .switch_cover {
+        visibility: visible;
+    }
+
+    /* 隱藏圖片拖動和選擇文本 */
+    img {
+        pointer-events: none;
+        -webkit-user-drag: none;
+        user-select: none;
+    }
+}
