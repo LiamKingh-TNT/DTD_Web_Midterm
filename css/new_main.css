@@ -15,7 +15,7 @@ header{
     z-index: 51;
     position: absolute;
     padding: 0 3rem;
-    height: 20vh;
+    height: 10vh;
 }
 
 footer{
@@ -39,37 +39,26 @@ footer{
     margin-right: -150px;
     z-index: 55;
     background-color: rgb(57, 100, 201);
+    border-radius: 30px;
+    display: flex;
+    align-content: center;
 }
+
+.card_img{
+    display: flex;
+    align-self: center;
+    width: 250px;
+    height: 250px;
+}
+
 .wheel {
     width: 500px;
     height: 500px;
     border-radius: 50%;
     position: absolute;
-    bottom: -200%;
+    bottom: -1600px;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-30deg);
     background-color: rgba(57, 100, 201, 0.2);
     z-index: 55;
-}
-
-.card1{
-    transform: rotate(-30deg) translate(0px, -1300px);
-}
-.card2{
-    transform: rotate(-10deg) translate(0px, -1300px);
-}
-.card3{
-    transform: rotate(10deg) translate(0px, -1300px);
-}
-.card4{
-    transform: rotate(30deg) translate(0px, -1300px);
-}
-.card5{
-    transform: rotate(50deg) translate(0px, -1300px);
-}
-.card6{
-    transform: rotate(70deg) translate(0px, -1300px);
-}
-.card7{
-    transform: rotate(90deg) translate(0px, -1300px);
 }
