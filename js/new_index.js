@@ -150,6 +150,7 @@ $(document).ready(function() {
                 gsap.to('.card',{
                     scale:1
                 })
+                
             },
             onComplete: () => {
                 // 動畫完成後，啟動冷卻計時
