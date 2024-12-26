@@ -41,7 +41,7 @@ footer{
     background-color: rgb(57, 100, 201);
     border-radius: 30px;
     display: flex;
-    align-content: center;
+    justify-content: center;
 }
 
 .card_img{
