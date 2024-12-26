@@ -110,6 +110,7 @@ footer{
     align-self: center;
     border-radius: 10px;
     margin-bottom: 35px;
+    font-size: 30px;
 }
 
 .wheel {
@@ -120,6 +121,6 @@ footer{
     bottom: -1600px;
     left: 50%;
     transform: translate(-50%, -50%) rotate(10deg);
-    background-color: rgba(57, 100, 201, 0.2);
+    background-color: rgba(57, 100, 201, 0);
     z-index: 55;
 }

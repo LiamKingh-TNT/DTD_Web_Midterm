@@ -110,7 +110,7 @@ $(document).ready(function() {
                 $(card_list[i-1].querySelector('div')).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
                 console.log(data);
                 $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
-                
+                $('.title').text(data.class_name);
                 
 
 
@@ -265,7 +265,7 @@ function mouseHover(){
                     });
                     console.log(class_infos);
                     console.log(class_id);
-                    
+
                 }
             }
         });
