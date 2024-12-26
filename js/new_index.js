@@ -6,7 +6,7 @@ var menu_clicked = false;
 var card_list = Array(18);
 
 $(document).ready(function() {
-    let currentAngle = -30; // 輪盤初始角度
+    let currentAngle = 10; // 輪盤初始角度
     let isCooldown = false; // 冷卻標誌位
     const cooldownTime = 0; // 冷卻時間（毫秒）
     $('.door').css('visibility','hidden');
@@ -33,13 +33,13 @@ $(document).ready(function() {
     // 生成卡片
     const numCards = 18; // 轮盘上的卡片数量
     for (let i = 0; i < numCards; i++) {
-        const card = document.createElement('div');
+        const card = document.createElement('button');
         const card_inner = document.createElement('div');
         const img = document.createElement('img');
         const p = document.createElement('p');
         card_inner.classList.add('card_inner');
         p.classList.add('card_text');
-        p.textContent ='圖片';
+        p.textContent ='尚未建立 代號:' + i;
         img.classList.add('card_img');
         img.src = "../images/deku.jpg";
         card.classList.add('card');
@@ -89,9 +89,11 @@ $(document).ready(function() {
                 const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
                 
                 // 設置圖片源
-                $(card_list[i]).attr('id', '#' + selectedDoc[i - 1].id);
+                $(card_list[i-1]).attr('id', '#' + selectedDoc[i - 1].id);
                 console.log(selectedDoc[i-1].id);
-                $(card_list[i].querySelector('div')).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
+                $(card_list[i-1].querySelector('div')).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
+                console.log(data);
+                $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
                 
             } else {
                 console.error("class_menbers 不存在");

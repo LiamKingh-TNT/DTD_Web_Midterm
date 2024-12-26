@@ -1,8 +1,7 @@
 body, html{
     margin: 0;
     height: 100%;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow:hidden;
 }
 
 header{
@@ -43,6 +42,7 @@ footer{
     display: flex;
     justify-content: center;
     flex-direction:column;
+    border: 0;
 }
 
 .card_inner{
@@ -83,7 +83,7 @@ footer{
     position: absolute;
     bottom: -1600px;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
+    transform: translate(-50%, -50%) rotate(10deg);
     background-color: rgba(57, 100, 201, 0.2);
     z-index: 55;
 }
