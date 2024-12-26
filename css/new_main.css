@@ -8,6 +8,10 @@ body, html{
     background-position: center;
 }
 
+.title{
+    display: flex;
+    justify-self: center;
+}
 .background_img{
     display: flex;
     width: 100%;
