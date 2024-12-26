@@ -265,11 +265,7 @@ function createRankingBox(index, rank) {
     const footText1 = document.createElement('h1');
     footText1.className = 'ranking_box_foot_text';
     footText1.textContent = `${characters[index][0]}`;
-    const footText2 = document.createElement('h2');
-    footText2.className = 'ranking_box_foot_text_2';
-    footText2.textContent = `${characters[index][1]}`;
     boxFoot.appendChild(footText1);
-    boxFoot.appendChild(footText2);
 
     rankingBox.appendChild(imgFrame);
     rankingBox.appendChild(boxFoot);

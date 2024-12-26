@@ -90,8 +90,7 @@ img{
     border-radius: 0em 0em 1.5em 1.5em;
 }
 
-.ranking_box_foot_text,
-.ranking_box_foot_text_2 {
+.ranking_box_foot_text{
     position: relative;
     text-align: center;
     vertical-align: text-bottom;
@@ -110,11 +109,6 @@ img{
     font-size: clamp(2px, 2vw, 12px);
 }
 
-.ranking_box_foot_text_2 {
-    margin-top: 1.5em;
-    font-size: clamp(1px, 1vw, 9px);
-}
-
 .rank_1{
     background-color:goldenrod;
 }
@@ -122,7 +116,7 @@ img{
     background-color:silver;
 }
 .rank_3{
-    background-color:rgb(235, 115, 41);
+    background-color:rgb(135, 71, 31);
 }
 .rank_0{
     background-color:rgb(57, 57, 57);
@@ -257,4 +251,60 @@ img{
     background-color: rgb(0, 0, 0);
     border-radius: 100%;
     margin-left: 3em;
+}
+@media (max-width: 600px) {
+    .ranking_box.rank_1{
+        margin-bottom: 12em;
+    }
+
+    .ranking_box {
+        width: 4em;
+        height: 4em;
+        flex-shrink: 0;
+        margin: 0 -6em;
+        border-radius: 0.4em;
+        padding: 5px;
+    }
+    .ranking_box_img {
+        width: 100%; /* 使圖片寬度為 100% */
+        height: 100%; /* 使圖片高度為 100% */
+        object-fit: cover; /* 使圖片填滿容器，保持比例 */
+        border-radius: 0.3em; /* 圓角邊框 */
+    }
+
+    .ranking_box_foot {
+        text-align: center; /* 添加此行，使得内部的文本水平居中 */
+        border-radius: 0em 0em 0.3em 0.3em;
+    }
+    
+    .ranking_box_foot_text {
+        text-align: center; /* 添加此行，使得内部的文本水平居中 */
+        margin-top: 1em;
+        font-size: clamp(2px, 2vw, 5px);
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1024px){
+    .ranking_box {
+        width: 7em;
+        height: 7em;
+        flex-shrink: 0;
+        margin: 0 -3em;
+        border-radius: 0.4em;
+        padding: 5px;
+    }
+    .ranking_box_img {
+        width: 100%; /* 使圖片寬度為 100% */
+        height: 100%; /* 使圖片高度為 100% */
+        object-fit: cover; /* 使圖片填滿容器，保持比例 */
+        border-radius: 0.3em; /* 圓角邊框 */
+    }
+    .ranking_box_foot {
+        text-align: center; /* 添加此行，使得内部的文本水平居中 */
+        border-radius: 0em 0em 0.3em 0.3em;
+    }
+    .ranking_box.rank_1{
+        margin-bottom: 15em;
+        z-index: 2;
+    }
 }
