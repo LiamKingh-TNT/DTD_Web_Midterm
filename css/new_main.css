@@ -1,3 +1,93 @@
+
+@media (max-width: 600px) {
+    
+    .wheel {
+        visibility: hidden;
+    }
+}
+
+.arrow{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-self: center;
+}
+.footer_selector{
+    width: 100%;
+    display: flex;
+    /* 水平置中 */
+    justify-content: center;    
+    /* 垂直置中 */
+    align-items: center;
+}
+.selector_buttin{
+    display: flex;
+    position: absolute;
+    width: 40px;
+    height: 200px;
+    border-radius: 30px;
+    bottom: 70px;
+}
+
+.right_button{
+    display: flex;
+    position: absolute;
+    right: 20px;
+}
+.left_button{
+    display: flex;
+    position: absolute;
+    left: 20px;
+}
+.selector_card{
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    bottom: 50px;
+    right: 50%;
+    margin-right: -125px;
+    z-index: 55;
+    background-color: rgb(57, 100, 201);
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    border: 0;
+}
+
+
+.selector_card_inner{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-direction:column;
+    width: 220px;
+    height: 220px;
+    border-radius: 10px;
+    z-index: 56;
+    background-color: rgb(147, 171, 228);
+    overflow: hidden;
+    
+}
+
+.selector_card_img{
+    display: flex;
+    align-self: flex-start;
+    width: 220px;
+    height: 180px;
+    background-color: aliceblue;
+    top: 0;
+    object-fit:fill;
+}
+
+.selector_card_text{
+    display: flex;
+    align-self: center;
+    border-radius: 10px;
+    margin-bottom: 35px;
+    font-size: 30px;
+}
+
 body, html{
     margin: 0;
     width: 100%;

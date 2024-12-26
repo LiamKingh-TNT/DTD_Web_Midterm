@@ -115,9 +115,6 @@ $(document).ready(function() {
                 console.log(data);
                 $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
                 if(i==2)$('.title').text(data.class_name);
-                
-
-
             } else {
                 console.error("class_menbers 不存在");
             }
