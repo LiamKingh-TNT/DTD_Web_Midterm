@@ -4,9 +4,11 @@ var class_infos;
 var can_start;
 var menu_clicked = false;
 var card_list = Array(18);
+var selection_id = 0;
 
 $(document).ready(function() {
     let currentAngle = 10; // 輪盤初始角度
+    selection_id = 1;
     let isCooldown = false; // 冷卻標誌位
     const cooldownTime = 0; // 冷卻時間（毫秒）
     $('.door').css('visibility','hidden');
@@ -119,6 +121,7 @@ $(document).ready(function() {
 
     // 滑鼠滾輪控制旋轉
     window.addEventListener('wheel', (event) => {
+        console.log(selection_id);
         if (isCooldown) return; // 如果在冷卻期間，直接返回
         isCooldown = true;
         const delta = event.deltaY > 0 ? 20 : -20; // 每次滾動的角度
@@ -140,6 +143,11 @@ $(document).ready(function() {
             },
             onComplete: () => {
                 // 動畫完成後，啟動冷卻計時
+                selection_id += (offset> 0 ? -1 : 1);
+                if(selection_id < 0)
+                {
+                    selection_id = 17;
+                }
                 setTimeout(() => {
                     isCooldown = false; // 冷卻結束
                 }, cooldownTime);
