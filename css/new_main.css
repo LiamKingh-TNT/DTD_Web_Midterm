@@ -1,0 +1,72 @@
+body, html{
+    margin: 0;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+header{
+    box-sizing: border-box;
+    background-color: rgb(11, 4, 59,0.8);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 51;
+    position: absolute;
+    padding: 0 3rem;
+    height: 20vh;
+}
+
+footer{
+    box-sizing: border-box;
+    background-color: rgb(11, 4, 59,0.8);
+    justify-content: space-between;
+    width: 100%;
+    z-index: 51;
+    position: absolute;
+    padding: 0 3rem;
+    height: 40vh;
+    bottom: 0;
+}
+
+.card{
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    bottom: 100px;
+    right: 50%;
+    margin-right: -150px;
+    z-index: 55;
+    background-color: rgb(57, 100, 201);
+}
+.wheel {
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(57, 100, 201, 0.2);
+    z-index: 55;
+}
+
+.card1{
+    transform: rotate(0deg) translate(500px,0px);
+}
+.card2{
+    transform: rotate(60deg) translate(500px,0px);
+}
+.card3{
+    transform: rotate(120deg) translate(500px,0px);
+}
+.card4{
+    transform: rotate(180deg) translate(500px,0px);
+}
+.card5{
+    transform: rotate(240deg) translate(500px,0px);
+}
+.card6{
+    transform: rotate(300deg) translate(500px,0px);
+}
