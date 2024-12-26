@@ -44,7 +44,7 @@ $(document).ready(function() {
         p.classList.add('card_text');
         p.textContent ='尚未建立 代號:' + i;
         img.classList.add('card_img');
-        img.src = "../images/deku.jpg";
+        img.src = "../images/one.png";
         card.classList.add('card');
         card.classList.add('card' + i);
         card.appendChild(card_inner);
@@ -111,6 +111,9 @@ $(document).ready(function() {
                 console.log(data);
                 $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
                 
+                
+
+
             } else {
                 console.error("class_menbers 不存在");
             }
@@ -177,11 +180,30 @@ $(document).ready(function() {
                     console.log(picture_array[selection_id][0]);
                     $('.background_img_right').css('background-image',`url(${picture_array[selection_id][0]})`);
                     $('.background_img_left').css('background-image',`url(${picture_array[selection_id][1]})`);
+                    
+                    var tempID = $('.card' + selection_id).attr('id');
+                    class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
+                    console.log(class_id);
+                    //console.log(tempID.substr(1,tempID.length));
+                    class_infos = classRef.doc(class_id); // 獲取對應的文檔
+                    class_infos.get().then((doc) => {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            const class_name = data.class_name;
+                            $('.name h1').text(class_name);
+                        } else {
+                            console.error("文檔不存在");
+                        }
+                    }).catch((error) => {
+                        console.error("獲取文檔時發生錯誤:", error);
+                    });
+                
                 }
                 else{
                     $('.background_img_right').css('background-image',`url(../images/one_right.png)`);
                     $('.background_img_left').css('background-image',`url(../images/one_left.png)`);
                 }
+                
                 setTimeout(() => {
                     isCooldown = false; // 冷卻結束
                 }, cooldownTime);
@@ -209,6 +231,7 @@ function mouseHover(){
         $(this).children().children('.card_text').css('color','rgb(55, 63, 103)');
     });
     $('.card').on('click', function() {
+        if(picture_array.length <= selection_id) return;
         gsap.to('.loading_obj', {
             opacity: 1,
             y: '0em',
@@ -219,7 +242,30 @@ function mouseHover(){
                 $('.loading_obj').css('z-index', '100'); 
             },
             onComplete: function() {
-                window.location.href = "index.html";
+                // 儲存數據到 sessionStorage
+                sessionStorage.setItem("class_infos", class_infos);
+                sessionStorage.setItem("class_id", class_id);
+                console.log(class_infos);
+                console.log(class_id);
+                // 跳轉到 2pick 頁面
+                if(class_id != null){
+                    gsap.to('.loading_obj', {
+                        opacity: 1,
+                        y: '0em',
+                        ease: 'power.out',
+                        duration:1.5,
+                        onStart: function() {
+                            $('.loading_obj').css('visibility', 'visible'); // 在動畫結束後隱藏 loading_obj
+                        },
+                        onComplete:function(){
+                            setTimeout(() => {
+                                window.location.href = "2pick.html";
+                            }, 500);
+                        }
+                    });
+                    console.log(class_infos);
+                    console.log(class_id);
+                }
             }
         });
     });
