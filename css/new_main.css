@@ -3,20 +3,20 @@ body, html{
     width: 100%;
     height: 100%;
     overflow:hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .header_title{
     width: 100%;
     display: flex;
-    /* 水平置中 */
-    justify-content: center;    
+    /* 水平置中 */  
     /* 垂直置中 */
     align-items: center;
 }
 .title{
     display: flex;
-    align-self: center;
-    text-align: center;
+    justify-self: center;
     font-size: 60px;
     color: aliceblue;
 }
