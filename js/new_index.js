@@ -48,7 +48,7 @@ $(document).ready(function() {
         p.classList.add('card_text');
         p.textContent ='尚未建立 代號:' + i;
         img.classList.add('card_img');
-        img.src = "../images/one.png";
+        img.src = "url(../images/one_right.png)";
         card.classList.add('card');
         card.classList.add('card' + i);
         card.appendChild(card_inner);
