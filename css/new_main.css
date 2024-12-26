@@ -45,28 +45,31 @@ footer{
     height: 500px;
     border-radius: 50%;
     position: absolute;
-    bottom: -100%;
+    bottom: -200%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotate(-30deg);
     background-color: rgba(57, 100, 201, 0.2);
     z-index: 55;
 }
 
 .card1{
-    transform: rotate(0deg) translate(500px,0px);
+    transform: rotate(-30deg) translate(0px, -1300px);
 }
 .card2{
-    transform: rotate(60deg) translate(500px,0px);
+    transform: rotate(-10deg) translate(0px, -1300px);
 }
 .card3{
-    transform: rotate(120deg) translate(500px,0px);
+    transform: rotate(10deg) translate(0px, -1300px);
 }
 .card4{
-    transform: rotate(180deg) translate(500px,0px);
+    transform: rotate(30deg) translate(0px, -1300px);
 }
 .card5{
-    transform: rotate(240deg) translate(500px,0px);
+    transform: rotate(50deg) translate(0px, -1300px);
 }
 .card6{
-    transform: rotate(300deg) translate(500px,0px);
+    transform: rotate(70deg) translate(0px, -1300px);
+}
+.card7{
+    transform: rotate(90deg) translate(0px, -1300px);
 }
