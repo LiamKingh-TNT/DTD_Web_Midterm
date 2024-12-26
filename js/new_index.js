@@ -5,13 +5,14 @@ var can_start;
 var menu_clicked = false;
 var card_list = Array(18);
 var selection_id = 0;
-
+var picture_array;
 $(document).ready(function() {
     let currentAngle = 10; // 輪盤初始角度
     selection_id = 1;
     let isCooldown = false; // 冷卻標誌位
     const cooldownTime = 0; // 冷卻時間（毫秒）
     $('.door').css('visibility','hidden');
+    
     class_id = null;
     can_start = false;
     const firebaseConfig = {
@@ -58,6 +59,8 @@ $(document).ready(function() {
         card.style.transform = `rotate(${angle}deg) translate(0px, -1300px) `;
         card_list[i] = card;
     }
+    $('.card').css('pointer-events', 'none');
+    $('.card1').css('pointer-events', 'auto');
 
     
     classRef.get().then((querySnapshot) => {
@@ -71,6 +74,7 @@ $(document).ready(function() {
         selection_count = docs.length > 18? 18: docs.length;
         const selectedDoc = getRandomDoc(docs, selection_count);  
         console.log("隨機選擇的文檔:", selectedDoc);
+        picture_array = new Array(selection_count);
 
         for(var i = 1; i <= selection_count; i++) {
             const data = selectedDoc[i - 1].data;  
@@ -90,7 +94,8 @@ $(document).ready(function() {
 
                 // 獲取一個隨機成員的資料
                 const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
-                
+                picture_array[i - 1] = class_menbers[menberKeys[randomIndexes[1]]][2];
+                if(i > 0) $('.background_img').css('background-image',`url(${picture_array[1]})`);
                 // 設置圖片源
                 $(card_list[i-1]).attr('id', '#' + selectedDoc[i - 1].id);
                 console.log(selectedDoc[i-1].id);
@@ -128,6 +133,7 @@ $(document).ready(function() {
         const delta = event.deltaY > 0 ? 20 : -20; // 每次滾動的角度
         currentAngle += delta;
         const offset = event.deltaY > 0 ? 5 : -5;
+        $('.card').css('pointer-events', 'none');
         
         // 使用 GSAP 旋轉輪盤
         gsap.timeline().to(wheel, {
@@ -141,6 +147,9 @@ $(document).ready(function() {
             ease: 'power2.out',
             onStart: () => {
                 isCooldown = true; // 設置冷卻開始
+                gsap.to('.card',{
+                    scale:1
+                })
             },
             onComplete: () => {
                 // 動畫完成後，啟動冷卻計時
@@ -153,15 +162,48 @@ $(document).ready(function() {
                 {
                     selection_id = 0;
                 }
-                $('.card').
+                $('.card' + selection_id).css('pointer-events', 'auto');
+                console.log(picture_array[selection_id]);
+                $('.background_img').css('background-image',`url(${picture_array[selection_id]})`);
                 setTimeout(() => {
                     isCooldown = false; // 冷卻結束
                 }, cooldownTime);
             }
         });
     });
+    mouseHover();
 });
 function getRandomDoc(docs, count) {
     const shuffled = docs.sort(() => 0.5 - Math.random()); // 隨機打亂數組
     return shuffled.slice(0, count); // 取前 count 個文檔
+}
+
+function mouseHover(){
+    $('.card').on('mouseenter', function(){
+        gsap.to(this,{
+            scale:1.5
+        })
+        $(this).children().children('.card_text').css('color','white');
+    });
+    $('.card').on('mouseleave', function(){
+        gsap.to(this,{
+            scale:1
+        })
+        $(this).children().children('.card_text').css('color','rgb(55, 63, 103)');
+    });
+    $('.card').on('click', function() {
+        gsap.to('.loading_obj', {
+            opacity: 1,
+            y: '0em',
+            ease: 'power4.out',
+            duration:1.5,
+            onStart: function() {
+                $('.loading_obj').css('visibility', 'visible'); 
+                $('.loading_obj').css('z-index', '100'); 
+            },
+            onComplete: function() {
+                window.location.href = "index.html";
+            }
+        });
+    });
 }
