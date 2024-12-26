@@ -15,11 +15,11 @@ img{
     -moz-user-select:none;  /* for Mozilla、Firefox */
 }
 #sel_1{
-    top: 0em; transform: rotate(-10deg); width: 30em; height: 30em;
+    top: 0em; transform: rotate(-10deg); width: 30em; margin-left: 50px;
     background-color: rgb(97, 128, 194);
 }
 #sel_2{
-    top: 0em; transform: rotate(10deg); width: 30em; height: 30em;
+    top: 0em; transform: rotate(10deg); width: 30em; margin-right: 50px;
     background-color: rgb(171, 63, 63);
 }
 
@@ -202,4 +202,86 @@ html, body {
 }
 .switch_cover{
     visibility: hidden;
+}
+
+@media (max-width: 600px) {
+    /* 使選項框在手機上並排顯示 */
+    .selections_box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 500px;
+        height: 250px;
+        -webkit-user-drag: none;
+        margin-top: 10em;
+    }
+
+    /* 單個選擇框的樣式 */
+    .pick_selection {
+        width: 15em; 
+        height: 15em; 
+        padding: 10px;
+        border: 0px;
+        border-radius: 2em;
+        box-shadow: 0.5em 0.5em 0.8em rgba(62, 64, 65, 0.267);
+        position: relative;
+        margin: 0 1.5em;  /* 添加 margin 使選擇框之間有距離 */
+        -webkit-user-drag: none;
+        pointer-events: none;
+    }
+
+    /* 圖片的樣式 */
+    .seletion_box {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
+        background-image: url('../images/one.png');
+        background-repeat: no-repeat;
+        background-attachment: local;
+        background-size: contain;
+        border-radius: 1.5em;
+        box-shadow: inset 0em 0em 5em 1em rgba(62, 64, 65, 0.799);
+        background-color: gray;
+        user-select:none; /* standard syntax */
+        -webkit-user-select:none; /* for Chrome、Safari */
+        -moz-user-select:none;  /* for Mozilla、Firefox */
+        -webkit-user-drag: none;
+        -moz-user-select: none;
+        object-fit: cover;
+    }
+
+    /* 文字样式 */
+    .seletion_box_foot_text,
+    .seletion_box_foot_text_2 {
+        font-size: clamp(8px, 3vw, 16px);  /* 根据屏幕大小调整文字大小 */
+        text-align: center;  /* 文字居中 */
+    }
+
+    /* 光束效果的大小 */
+    .selected_beam {
+        display: block;
+        position: absolute;
+        top: -70%; /* 調整以適合你的需求 */
+        left: -70%; /* 調整以適合你的需求 */
+        transform: translate(-50%, -50%); /* 使其居中 */
+        animation: beamRotate 10s linear infinite;
+        pointer-events: none;
+        background-image: url('../images/beam.png');
+        width: 80em; /* 添加固定寬度以便更好顯示 */
+        height: 80em; /* 添加固定高度以便更好顯示 */
+        background-size: contain;
+        opacity: 0.55;
+        z-index: -1;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* 菜单按钮大小调整 */
+    .menu_button {
+        width: 4em;  /* 减小宽度 */
+        height: 4em;  /* 减小高度 */
+        margin-top: 1em;  /* 增加间距 */
+    }
 }
