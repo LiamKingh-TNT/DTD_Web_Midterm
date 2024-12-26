@@ -190,6 +190,7 @@ $(document).ready(function() {
                         if (doc.exists) {
                             const data = doc.data();
                             const class_name = data.class_name;
+                            $('.title').text(data.class_name);
                             $('.name h1').text(class_name);
                         } else {
                             console.error("文檔不存在");
