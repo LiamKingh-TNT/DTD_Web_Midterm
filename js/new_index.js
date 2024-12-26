@@ -45,6 +45,7 @@ $(document).ready(function() {
         img.classList.add('card_img');
         img.src = "../images/deku.jpg";
         card.classList.add('card');
+        card.classList.add('card' + i);
         card.appendChild(card_inner);
         card_inner.appendChild(img);
         card_inner.appendChild(p);
@@ -148,6 +149,11 @@ $(document).ready(function() {
                 {
                     selection_id = 17;
                 }
+                else if(selection_id > 17)
+                {
+                    selection_id = 0;
+                }
+                $('.card').
                 setTimeout(() => {
                     isCooldown = false; // 冷卻結束
                 }, cooldownTime);
