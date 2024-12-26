@@ -49,7 +49,6 @@ $(document).ready(function() {
             ease: "power1.inOut"
         });
     });
-
     
     classRef.get().then((querySnapshot) => {
         const docs = [];

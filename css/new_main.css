@@ -42,13 +42,38 @@ footer{
     border-radius: 30px;
     display: flex;
     justify-content: center;
+    flex-direction:column;
+}
+
+.card_inner{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-direction:column;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+    z-index: 56;
+    background-color: rgb(147, 171, 228);
+    overflow: hidden;
+    
 }
 
 .card_img{
     display: flex;
-    align-self: center;
+    align-self: flex-start;
     width: 250px;
-    height: 250px;
+    height: 200px;
+    background-color: aliceblue;
+    top: 0;
+    object-fit:fill;
+}
+
+.card_text{
+    display: flex;
+    align-self: center;
+    border-radius: 10px;
+    margin-bottom: 35px;
 }
 
 .wheel {
