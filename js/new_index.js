@@ -36,7 +36,31 @@ $(document).ready(function() {
     classRef = data_base.collection("classroom");
 
     loading = 1;
-
+    const main_imgs = document.querySelectorAll('.main-img');
+    main_imgs.forEach((img, index) => {
+        gsap.fromTo(img, 
+            { scale: 1 }, // 開始狀態
+            { scale: 1.05, x: (Math.random() - 0.5) + 'em', y: (Math.random() * 2 - 1) + 'em', duration: 1.5, yoyo: true, ease: 'power1.inOut', repeat: -1, delay: index * Math.random() * 0.5,} // 結束狀態
+        ); 
+    });
+    gsap.fromTo('.loading_roll', 
+        { rotate: 0 }, // 開始狀態
+        { rotate: 720, duration: 1.5, ease: 'power1.inOut', repeat: -1 } // 結束狀態
+    ); 
+    const dots = document.querySelectorAll('.loading_dot');
+    dots.forEach((dot, index) => {
+        gsap.fromTo(dot,
+            {y: '1em'},
+        {
+            opacity: 1, // 使點顯示
+            y: '2.5em', // 向上浮動 10 像素
+            duration: 0.7, // 動畫持續 0.5 秒
+            repeat: -1, // 無限重複
+            yoyo: true, // 折返動畫
+            delay: index * 0.2, // 設置延遲，讓每個點依次出現
+            ease: "power1.inOut"
+        });
+    });
     // 獲取輪盤
     const wheel = document.querySelector('.wheel');
 
