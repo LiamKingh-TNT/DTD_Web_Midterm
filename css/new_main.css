@@ -1,10 +1,9 @@
 
-@media (max-width: 600px) {
-    
-    .wheel {
-        visibility: hidden;
-    }
+.mobile{
+    visibility: hidden;
+    pointer-events: none;
 }
+
 
 .arrow{
     width: 30px;
@@ -259,4 +258,32 @@ footer{
     transform: translate(-50%, -50%) rotate(10deg);
     background-color: rgba(57, 100, 201, 0);
     z-index: 55;
+}
+
+@media (max-width: 600px) {
+    .title{
+        font-size: 30px;
+    }
+    .wheel {
+        visibility: hidden;
+    }
+    
+    .mobile{
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+@media (min-width: 600px) and (max-width: 1024px) {
+    
+    .title{
+        font-size: 35px;
+    }
+    .wheel {
+        visibility: hidden;
+    }
+    
+    .mobile{
+        visibility: visible;
+        pointer-events: auto;
+    }
 }

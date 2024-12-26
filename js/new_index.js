@@ -5,11 +5,14 @@ var can_start;
 var menu_clicked = false;
 var card_list = Array(18);
 var selection_id = 0;
+var selectior_id = 0;
 var picture_array;
 var search_box_switch = false;
 var search_box_switch_CD = 0;
 var search_box_field_hovered = false;
 var search_box_button_hovered = false;
+var classRef;
+
 $(document).ready(function() {
     let currentAngle = 10; // 輪盤初始角度
     selection_id = 1;
@@ -30,7 +33,7 @@ $(document).ready(function() {
     };
     firebase.initializeApp(firebaseConfig);
     const data_base = firebase.firestore();
-    const classRef = data_base.collection("classroom");
+    classRef = data_base.collection("classroom");
 
     loading = 1;
 
@@ -81,9 +84,11 @@ $(document).ready(function() {
         picture_array = new Array(selection_count); // 创建一维数组
 
         for (let i = 0; i < selection_count; i++) {
-            picture_array[i] = new Array(2); // 每个元素再初始化为一个数组（列数为 2）
+            picture_array[i] = new Array(4); // 每个元素再初始化为一个数组（列数为 2）
             picture_array[i][0] = '../images/one_right.png';
             picture_array[i][1] = '../images/one_left.png';
+            picture_array[i][2] = '../images/one_left.png';
+            picture_array[i][3] = '';
         }
 
         for(var i = 1; i <= selection_count; i++) {
@@ -106,12 +111,16 @@ $(document).ready(function() {
                 const img1Src = class_menbers[menberKeys[randomIndexes[0]]][2]; // 圖片路徑
                 picture_array[i - 1][0] = class_menbers[menberKeys[randomIndexes[1]]][2];
                 picture_array[i - 1][1] = class_menbers[menberKeys[randomIndexes[2]]][2];
+                picture_array[i - 1][2] = img1Src;
+                picture_array[i - 1][3] = selectedDoc[i - 1].id;
                 if(i > 0) $('.background_img_right').css('background-image',`url(${picture_array[1][0]})`);
                 if(i > 0) $('.background_img_left').css('background-image',`url(${picture_array[1][1]})`);
                 // 設置圖片源
                 $(card_list[i-1]).attr('id', '#' + selectedDoc[i - 1].id);
                 console.log(selectedDoc[i-1].id);
-                $(card_list[i-1].querySelector('div')).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
+                $(card_list[i-1].querySelector('div')).find('img:first').attr('src', img1Src);  // 使用
+                if(i == 2)$('.selector_card').find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
+                if(i == 2)$('.selector_card').find('p:first').text(data.class_name);
                 console.log(data);
                 $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
                 if(i==2)$('.title').text(data.class_name);
@@ -175,13 +184,16 @@ $(document).ready(function() {
                 {
                     selection_id = 0;
                 }
+                selectior_id = selection_id > picture_array.length? picture_array.length - 1: selection_id;
                 $('.card' + selection_id).css('pointer-events', 'auto');
                 if(picture_array.length > selection_id)
                 {
                     console.log(picture_array[selection_id][0]);
                     $('.background_img_right').css('background-image',`url(${picture_array[selection_id][0]})`);
                     $('.background_img_left').css('background-image',`url(${picture_array[selection_id][1]})`);
+                    $('.selector_card').find('img:first').attr('src', picture_array[selection_id][2]);  // 使用 '.' 前綴選擇器
                     
+
                     var tempID = $('.card' + selection_id).attr('id');
                     class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
                     console.log(class_id);
@@ -191,8 +203,8 @@ $(document).ready(function() {
                         if (doc.exists) {
                             const data = doc.data();
                             const class_name = data.class_name;
-                            $('.title').text(data.class_name);
-                            $('.name h1').text(class_name);
+                            $('.title').text(class_name);
+                            $('.selector_card').find('p:first').text(class_name);
                         } else {
                             console.error("文檔不存在");
                         }
@@ -214,7 +226,108 @@ $(document).ready(function() {
     });
     mouseHoverCard();
     mouseHoverSearch();
+    mouseHoverButton();
 });
+function mouseHoverButton(){
+    $('.right_button').on('click', function() {
+        selectior_id++;
+        if(selectior_id >= picture_array.length)
+        {
+            selectior_id = picture_array.length - 1;
+        }
+        $('.background_img_right').css('background-image',`url(${picture_array[selectior_id][0]})`);
+        $('.background_img_left').css('background-image',`url(${picture_array[selectior_id][1]})`);
+        $('.selector_card').find('img:first').attr('src', picture_array[selectior_id][2]);  // 使用 '.' 前綴選擇器
+        console.log(selectior_id);
+        var tempID = picture_array[selectior_id][3];
+        class_id = tempID.substr(0,tempID.length); // 使用 attr 獲取 ID
+        console.log(class_id);
+        //console.log(tempID.substr(1,tempID.length));
+        class_infos = classRef.doc(class_id); // 獲取對應的文檔
+        class_infos.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                const class_name = data.class_name;
+                $('.title').text(class_name);
+                $('.selector_card').find('p:first').text(class_name);
+            } else {
+                console.error("文檔不存在");
+            }
+        }).catch((error) => {
+            console.error("獲取文檔時發生錯誤:", error);
+        });
+    });
+    $('.left_button').on('click', function() {
+        selectior_id--;
+        if(selectior_id < 0)
+        {
+            selectior_id = 0;
+        }
+        $('.background_img_right').css('background-image',`url(${picture_array[selectior_id][0]})`);
+        $('.background_img_left').css('background-image',`url(${picture_array[selectior_id][1]})`);
+        $('.selector_card').find('img:first').attr('src', picture_array[selectior_id][2]);  // 使用 '.' 前綴選擇器
+        console.log(selectior_id);
+        var tempID = picture_array[selectior_id][3];
+        class_id = tempID.substr(0,tempID.length); // 使用 attr 獲取 ID
+        console.log(class_id);
+        //console.log(tempID.substr(1,tempID.length));
+        class_infos = classRef.doc(class_id); // 獲取對應的文檔
+        class_infos.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                const class_name = data.class_name;
+                $('.title').text(class_name);
+                $('.selector_card').find('p:first').text(class_name);
+            } else {
+                console.error("文檔不存在");
+            }
+        }).catch((error) => {
+            console.error("獲取文檔時發生錯誤:", error);
+        });
+    });
+    $('.selector_card').on('click', function() {
+        if(picture_array.length <= selection_id) return;
+        gsap.to('.loading_obj', {
+            opacity: 1,
+            y: '0em',
+            ease: 'power4.out',
+            duration:1.5,
+            onStart: function() {
+                $('.loading_obj').css('visibility', 'visible'); 
+                $('.loading_obj').css('z-index', '100'); 
+            },
+            onComplete: function() {
+                // 儲存數據到 sessionStorage
+                sessionStorage.setItem("class_infos", class_infos);
+                sessionStorage.setItem("class_id", class_id);
+                console.log(class_infos);
+                console.log(class_id);
+                // 跳轉到 2pick 頁面
+                if(class_id != null){
+                    gsap.to('.loading_obj', {
+                        opacity: 1,
+                        y: '0em',
+                        ease: 'power.out',
+                        duration:1.5,
+                        onStart: function() {
+                            $('.loading_obj').css('visibility', 'visible'); // 在動畫結束後隱藏 loading_obj
+                        },
+                        onComplete:function(){
+                            setTimeout(() => {
+                                window.location.href = "2pick.html";
+                            }, 500);
+                        }
+                    });
+                    console.log(class_infos);
+                    console.log(class_id);
+
+                }
+            }
+        });
+    });
+
+}
+
 function getRandomDoc(docs, count) {
     const shuffled = docs.sort(() => 0.5 - Math.random()); // 隨機打亂數組
     return shuffled.slice(0, count); // 取前 count 個文檔

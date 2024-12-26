@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=0.5,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <title>殘酷二選一</title>
     <link rel="icon" href="images/one.ico" type="image/x-icon">
-    <link href="./css/header.css" rel="stylesheet">
-    <link href="./css/main.css" rel="stylesheet">
-    <link href="./css/menu.css" rel="stylesheet">
-    <link href="./css/cover.css" rel="stylesheet">
+    <link href="./css/new_main.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -18,61 +15,28 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
-    <script src="./js/script.js"></script>
+    <script src="./js/new_index.js"></script>
 </head>
-
 <body>
-    <header>
-        <a class="brand-title" href="index.html"><img class="logo" src="images/one.png" alt="logo"></a>
-        <div class="name">
-            <h1>二選一</h1>
-        </div>
-        <div class="header-right">
-            <img class="user" src="images/icons/user-interface.png">
-            <a class="login" href="#">登入/註冊</a>
-        </div>
+    <header class="header_title">
+        <input class="search_field" type="search">
+        <div class="search_button"><img src="./images/icons/search.png" class="search_button_img"></div>
+        <h1 class="title">二選一</h1>
     </header>
-    <div class="menu">
-        <button class="room-button button_1" id="class_1">
-            <img src="" alt="left-left" class="left_pic">
-            <img src="" alt="left-right" class="right_pic">
-        </button>
-        <button class="room-button button_2" id="class_2">
-            <img src="" alt="mid-left" class="left_pic">
-            <img src="" alt="mid-right" class="right_pic">
-        </button>
-        <button class="room-button button_3" id="class_3">
-            <img src="" alt="right-left" class="left_pic">
-            <img src="" alt="right-right" class="right_pic">
-        </button>
-    </div>
-    <div class="switch_cover">
-        <div class="door door_left">
-        </div>
-        <div class="door door_right">
-        </div>
-    </div>
-    <div class="main-content">
-        <div class="left-image">
-            <img src="images/one_left.png" alt="left-img" class="main-img">
-        </div>
-        <div class="button-container">
-            <button class="start-button" id="start-button" >開始選擇</button>
-        </div>
-        <div class="right-image">
-            <img src="images/one_right.png" alt="right-img" class="main-img">
-        </div>
-    </div>
-    <div class="cover loading_obj">
-        <div class="cover_inside loading_obj">
-            <img src="images/icons/sync.png" class="loading_roll loading_obj">
-            <div class="loading_text_groupe loading_obj">
-                <h1 class="loading_text loading_obj">Loading</h1>
-                <div class="loading_dot loading_obj"> </div>
-                <div class="loading_dot loading_obj"> </div>
-                <div class="loading_dot loading_obj"> </div>
+    <div class="wheel"></div> <!-- 轮盘将通过JS生成 -->
+    <footer class="footer_selector">
+        <button class="selector_buttin right_button mobile"><img src="./images/icons/play_right.png" class="arrow"></button>
+        <button class="selector_card mobile">
+            <div class="selector_card_inner">
+                <img class="selector_card_img">
+                <p class="selector_card_text"></p>
             </div>
-        </div>
+        </button>
+        <button class="selector_buttin left_button mobile"><img src="./images/icons/play_left.png" class="arrow"></button>
+    </footer>
+    <div class="background_img">
+        <img class="background_img_right">
+        <img class="background_img_left">
     </div>
 </body>
 </html>
