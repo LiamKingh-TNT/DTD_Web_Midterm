@@ -211,14 +211,17 @@ $(document).ready(function() {
             }
         });
     });
-    mouseHover();
+    mouseHoverCard();
 });
 function getRandomDoc(docs, count) {
     const shuffled = docs.sort(() => 0.5 - Math.random()); // 隨機打亂數組
     return shuffled.slice(0, count); // 取前 count 個文檔
 }
-
-function mouseHover(){
+function mouseHoverSearch()
+{
+    
+}
+function mouseHoverCard(){
     $('.card').on('mouseenter', function(){
         gsap.to(this,{
             scale:1.5

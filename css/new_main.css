@@ -6,18 +6,36 @@ body, html{
     overflow-y: hidden;
     overflow-x: hidden;
 }
-
+.search_button{
+    display: flex;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(169, 174, 230);
+    border: 6px solid rgb(41, 55, 203);
+    position: absolute;
+    left: 2vw;
+}
+.search_button_img{
+    width: 40px;
+    height: 40px;
+    align-self: center;
+}
 .header_title{
     width: 100%;
     display: flex;
-    /* 水平置中 */  
+    /* 水平置中 */
+    justify-content: center;    
     /* 垂直置中 */
     align-items: center;
 }
 .title{
     display: flex;
-    justify-self: center;
-    font-size: 60px;
+    position: static;
+    align-self: center;
+    text-align: center;
+    font-size: 50px;
     color: aliceblue;
 }
 .background_img{
