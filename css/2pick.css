@@ -15,11 +15,11 @@ img{
     -moz-user-select:none;  /* for Mozilla、Firefox */
 }
 #sel_1{
-    top: 0em; transform: rotate(-10deg); width: 30em; margin-left: 50px;
+    top: 0em; transform: rotate(-10deg); width: 30em; height: 30em;
     background-color: rgb(97, 128, 194);
 }
 #sel_2{
-    top: 0em; transform: rotate(10deg); width: 30em; margin-right: 50px;
+    top: 0em; transform: rotate(10deg); width: 30em; height: 30em;
     background-color: rgb(171, 63, 63);
 }
 
@@ -205,6 +205,13 @@ html, body {
 }
 
 @media (max-width: 600px) {
+    #sel_1{
+        height: 15em; margin-left: 50px;
+    }
+    #sel_2{
+        height: 15em; margin-right: 50px;
+    }
+
     /* 使選項框在手機上並排顯示 */
     .selections_box {
         display: flex;
