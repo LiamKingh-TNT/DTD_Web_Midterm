@@ -6,6 +6,10 @@ var menu_clicked = false;
 var card_list = Array(18);
 var selection_id = 0;
 var picture_array;
+var search_box_switch = false;
+var search_box_switch_CD = 0;
+var search_box_field_hovered = false;
+var search_box_button_hovered = false;
 $(document).ready(function() {
     let currentAngle = 10; // 輪盤初始角度
     selection_id = 1;
@@ -110,7 +114,7 @@ $(document).ready(function() {
                 $(card_list[i-1].querySelector('div')).find('img:first').attr('src', img1Src);  // 使用 '.' 前綴選擇器
                 console.log(data);
                 $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
-                $('.title').text(data.class_name);
+                if(i==2)$('.title').text(data.class_name);
                 
 
 
@@ -212,6 +216,7 @@ $(document).ready(function() {
         });
     });
     mouseHoverCard();
+    mouseHoverSearch();
 });
 function getRandomDoc(docs, count) {
     const shuffled = docs.sort(() => 0.5 - Math.random()); // 隨機打亂數組
@@ -219,6 +224,69 @@ function getRandomDoc(docs, count) {
 }
 function mouseHoverSearch()
 {
+    $('.search_button').on('mouseenter', function(){
+        search_box_button_hovered = true;
+        gsap.to(this,{
+            scale:1.2
+        })
+        $(this).children().children('.card_text').css('color','white');
+    });
+    $('.search_button').on('mouseleave', function(){
+        search_box_button_hovered = false;
+        gsap.to(this,{
+            scale:1
+        })
+        $(this).children().children('.card_text').css('color','rgb(55, 63, 103)');
+    });
+    $('.search_field').on('mouseenter', function(){
+        search_box_field_hovered = true;
+    });
+    $('.search_field').on('mouseleave', function(){
+        search_box_field_hovered = false;
+    });
+    $('.search_button').on('click', function() {
+        console.log(search_box_switch)
+        if(!search_box_switch)
+        {
+            search_box_switch = true;
+            search_box_switch_CD = true;
+            gsap.to('.search_field',{
+                width:250
+            })
+            gsap.timeline().to(this,{
+                x:210,
+                duration:0.5
+            })
+            .to(this,{
+                x:200,
+                duration:0.2,
+                onComplete:function(){
+                    setTimeout(() => {
+                        search_box_switch_CD = false;
+                    }, 50);
+                }
+            })
+        }
+        else{
+            search_box_switch_CD = true;
+            setTimeout(() => {
+                search_box_switch_CD = false;
+            }, 50);
+        }
+    });
+    $('html').on('click', function() {
+        if(search_box_switch_CD || search_box_button_hovered || search_box_field_hovered) return;
+
+        gsap.to('.search_field',{
+            width:50
+        })
+        gsap.timeline().to('.search_button',{
+            x:0,
+            onComplete:function(){ 
+                search_box_switch = false;
+            }
+        })
+    });
     
 }
 function mouseHoverCard(){
