@@ -102,8 +102,11 @@ body, html{
 .search_card{
     width: 200px;
     height: 40px;
-    background-color: aliceblue;
+    background-color: rgb(135, 135, 247);
+    border-radius: 20px;
+    font-size: 25px;
     z-index: 60;
+    pointer-events:all;
     margin-top: 10px;
 }
 .search_field{
@@ -133,7 +136,7 @@ body, html{
     padding-left: 20px;
     padding-top: 60px;
     font-size: 20px;
-    
+    overflow: hidden;
     visibility: hidden;
 }
 .search_button{

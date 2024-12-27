@@ -124,9 +124,13 @@ $(document).ready(function() {
             class_lists[i][0] = data.class_name;
             class_lists[i][1] = selectedDoc[i].id;
             const search_card = document.createElement('button');
-            search_card.classList.add('search_card');
+            search_card.textContent = class_lists[i][0];
+            search_card.setAttribute('id', class_lists[i][1]);
+            search_card.className='search_card';
             search_list.appendChild(search_card);
         }
+        searchBoxButton();
+        $('.search_card').css('color','white');
         console.log('ClassLists:'+class_lists);
         for(var i = 1; i <= selection_count; i++) {
             const data = selectedDoc[i - 1].data;  
@@ -161,6 +165,12 @@ $(document).ready(function() {
                 console.log(data);
                 $(card_list[i-1].querySelector('div')).find('p:first').text(data.class_name);  // 使用 '.' 前綴選擇器
                 if(i==2)$('.title').text(data.class_name);
+                if(i==2){
+                    class_id = picture_array[i - 1][3]; // 使用 attr 獲取 ID
+                    class_infos = classRef.doc(class_id); // 獲取對應的文檔
+                    sessionStorage.setItem("class_infos", class_infos);
+                    sessionStorage.setItem("class_id", class_id);
+                }
             } else {
                 console.error("class_menbers 不存在");
             }
@@ -265,6 +275,47 @@ $(document).ready(function() {
     mouseHoverSearch();
     mouseHoverButton();
 });
+function searchBoxButton(){
+    $('.search_card').on('mouseenter', function(){
+        console.log('click');
+        gsap.to(this,{
+            scale:1.2
+        })
+        $(this).css('color','white');
+    });
+    $('.search_card').on('mouseleave', function(){
+        console.log('click');
+        gsap.to(this,{
+            scale:1
+        })
+        $(this).css('color','rgb(0, 0, 0)');
+    });
+    $('.search_card').on('click',function () {
+        console.log('click');
+        var tempID = $(this).attr('id');
+        class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
+        class_infos = classRef.doc(class_id); // 獲取對應的文檔
+        sessionStorage.setItem("class_infos", class_infos);
+        sessionStorage.setItem("class_id", class_id);
+        gsap.to('.loading_obj', {
+            opacity: 1,
+            y: '0em',
+            ease: 'power.out',
+            duration:1.5,
+            onStart: function() {
+                $('.loading_obj').css('visibility', 'visible'); // 在動畫結束後隱藏 loading_obj
+            },
+            onComplete:function(){
+                $('.loading_obj').css('visibility', 'visible'); // 在動畫結束後隱藏 loading_obj
+                setTimeout(() => {
+                    $('.loading_obj').css('visibility', 'visible'); // 在動畫結束後隱藏 loading_obj
+                    window.location.href = "2pick.html";
+                }, 500);
+            }
+        });
+    })
+}
+
 function mouseHoverButton(){
     $('.right_button').on('click', function() {
         selectior_id++;
@@ -371,6 +422,8 @@ function getRandomDoc(docs, count) {
 }
 function mouseHoverSearch()
 {
+    
+
     $('.search_button').on('mouseenter', function(){
         gsap.to(this,{
             scale:1.2
