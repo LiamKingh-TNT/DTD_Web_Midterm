@@ -99,6 +99,13 @@ body, html{
     -ms-text-size-adjust: none; 
     text-size-adjust: none;
 }
+.search_card{
+    width: 200px;
+    height: 40px;
+    background-color: aliceblue;
+    z-index: 60;
+    margin-top: 10px;
+}
 .search_field{
     width: 50px;
     height: 50px;
@@ -110,6 +117,24 @@ body, html{
     position: absolute;
     padding-left: 20px;
     font-size: 20px;
+}
+.search_list{
+    width: 220px;
+    height: 50px;
+    display: flex;
+    justify-content:flex-start;
+    flex-direction: column;
+    align-self: flex-start;
+    border-radius: 25px;
+    background-color: rgb(169, 174, 230);
+    left: 2vw;
+    margin-top: 3vh;
+    position: absolute;
+    padding-left: 20px;
+    padding-top: 60px;
+    font-size: 20px;
+    
+    visibility: hidden;
 }
 .search_button{
     display: flex;

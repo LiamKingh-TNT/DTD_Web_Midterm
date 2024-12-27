@@ -9,9 +9,10 @@ var selectior_id = 0;
 var picture_array;
 var search_box_switch = false;
 var search_box_switch_CD = 0;
-var search_box_field_hovered = false;
-var search_box_button_hovered = false;
+var hovered_search = false;
 var classRef;
+var class_lists;
+
 
 $(document).ready(function() {
     let currentAngle = 10; // 輪盤初始角度
@@ -105,16 +106,28 @@ $(document).ready(function() {
         selection_count = docs.length > 18? 18: docs.length;
         const selectedDoc = getRandomDoc(docs, selection_count);  
         console.log("隨機選擇的文檔:", selectedDoc);
-        picture_array = new Array(selection_count); // 创建一维数组
 
+        picture_array = new Array(selection_count); // 创建一维数组
+        class_lists = new Array(docs.length)
         for (let i = 0; i < selection_count; i++) {
-            picture_array[i] = new Array(4); // 每个元素再初始化为一个数组（列数为 2）
+            picture_array[i] = new Array(4); 
             picture_array[i][0] = '../images/one_right.png';
             picture_array[i][1] = '../images/one_left.png';
             picture_array[i][2] = '../images/one_left.png';
             picture_array[i][3] = '';
         }
-
+        const search_list = document.querySelector('.search_list');
+        
+        for (let i = 0; i < docs.length; i++) {
+            class_lists[i] = new Array(2); 
+            const data = selectedDoc[i].data;  
+            class_lists[i][0] = data.class_name;
+            class_lists[i][1] = selectedDoc[i].id;
+            const search_card = document.createElement('button');
+            search_card.classList.add('search_card');
+            search_list.appendChild(search_card);
+        }
+        console.log('ClassLists:'+class_lists);
         for(var i = 1; i <= selection_count; i++) {
             const data = selectedDoc[i - 1].data;  
             const class_menbers = data.class_menbers;
@@ -359,24 +372,27 @@ function getRandomDoc(docs, count) {
 function mouseHoverSearch()
 {
     $('.search_button').on('mouseenter', function(){
-        search_box_button_hovered = true;
         gsap.to(this,{
             scale:1.2
         })
         $(this).children().children('.card_text').css('color','white');
     });
     $('.search_button').on('mouseleave', function(){
-        search_box_button_hovered = false;
         gsap.to(this,{
             scale:1
         })
         $(this).children().children('.card_text').css('color','rgb(55, 63, 103)');
     });
-    $('.search_field').on('mouseenter', function(){
-        search_box_field_hovered = true;
+    $('.search').on('mouseenter', function(){
+        hovered_search = true;
     });
-    $('.search_field').on('mouseleave', function(){
-        search_box_field_hovered = false;
+    $('.search').on('mouseleave', function(){
+        hovered_search = false;
+    });
+    $('.search_field').on('click', function(){
+        gsap.to('.search_list',{
+            height:300
+        })
     });
     $('.search_button').on('click', function() {
         console.log(search_box_switch)
@@ -395,6 +411,7 @@ function mouseHoverSearch()
                 x:200,
                 duration:0.2,
                 onComplete:function(){
+                    $('.search_list').css('visibility','visible');
                     setTimeout(() => {
                         search_box_switch_CD = false;
                     }, 50);
@@ -409,13 +426,28 @@ function mouseHoverSearch()
         }
     });
     $('html').on('click', function() {
-        if(search_box_switch_CD || search_box_button_hovered || search_box_field_hovered) return;
+        if(search_box_switch_CD || hovered_search) return;
 
         gsap.to('.search_field',{
-            width:50
+            width:50,
         })
         gsap.timeline().to('.search_button',{
             x:0,
+            onStart:function(){
+                gsap.to('.search_list',{
+                    height:0,
+                    width:0,
+                    onComplete:function(){
+                        $('.search_list').css('visibility','hidden');
+                    }
+                })
+                setTimeout(() => {
+                    gsap.to('.search_list',{
+                        height:0,
+                        width:220
+                    })
+                }, 500);
+            },
             onComplete:function(){ 
                 search_box_switch = false;
             }
