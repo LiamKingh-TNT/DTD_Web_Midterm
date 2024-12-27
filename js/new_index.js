@@ -293,7 +293,7 @@ function searchBoxButton(){
     $('.search_card').on('click',function () {
         console.log('click');
         var tempID = $(this).attr('id');
-        class_id = tempID.substr(1,tempID.length); // 使用 attr 獲取 ID
+        class_id = tempID.substr(0,tempID.length); // 使用 attr 獲取 ID
         class_infos = classRef.doc(class_id); // 獲取對應的文檔
         sessionStorage.setItem("class_infos", class_infos);
         sessionStorage.setItem("class_id", class_id);
