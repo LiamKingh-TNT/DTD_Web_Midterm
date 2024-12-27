@@ -12,9 +12,13 @@ var search_box_switch_CD = 0;
 var hovered_search = false;
 var classRef;
 var class_lists;
-
+var screenWidth;
 
 $(document).ready(function() {
+    window.addEventListener("resize", () => {
+        screenWidth = window.innerWidth;
+        console.log("畫面寬度變更為:", screenWidth);
+      });
     let currentAngle = 10; // 輪盤初始角度
     selection_id = 1;
     let isCooldown = false; // 冷卻標誌位
@@ -196,7 +200,7 @@ $(document).ready(function() {
     // 滑鼠滾輪控制旋轉
     window.addEventListener('wheel', (event) => {
         console.log(selection_id);
-        if (isCooldown) return; // 如果在冷卻期間，直接返回
+        if (isCooldown || screenWidth <= 1024) return; // 如果在冷卻期間，直接返回
         isCooldown = true;
         const delta = event.deltaY > 0 ? 20 : -20; // 每次滾動的角度
         currentAngle += delta;
@@ -275,6 +279,8 @@ $(document).ready(function() {
     mouseHoverSearch();
     mouseHoverButton();
 });
+
+
 function searchBoxButton(){
     $('.search_card').on('mouseenter', function(){
         console.log('click');
