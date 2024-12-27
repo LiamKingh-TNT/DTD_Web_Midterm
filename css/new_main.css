@@ -215,7 +215,9 @@ header{
     height: 10vh;
     top: 0;
 }
-
+.footer_selector{
+    height: 21em;
+}
 footer{
     box-sizing: border-box;
     background-color: rgb(11, 4, 59,0.8);
